@@ -1,31 +1,14 @@
-output "vpc_arn" {
-    description = "Amazon Resource Name (ARN) of VPC"
-    value = aws_vpc.this.arn
-}
-
-output "vpc_id" {
-    description = "The ID of the VPC"
-    value = aws_vpc.this.id
-}
-
-output "vpc_owner_id" {
-    description = "The ID of the AWS account that owns the VPC."
-    value = aws_vpc.this.owner_id
-}
-
-output "vpc_cidr_block" {
-    description = "IPv4 CIDR block"
-    value = aws_vpc.this.cidr_block
-}
-
-output "vpc_ipv6_cidr_block" {
-    description = "IPv6 CIDR block"
-    value = aws_vpc.this.ipv6_cidr_block
-}
-
-output "vpc_instance_tenancy" {
-    description = "Tenancy of instances spin up within VPC."
-    value = aws_vpc.this.instance_tenancy
+## Outputs for VPC
+output vpc_config {    
+    description = "The VPC Details"
+    value = { 
+        id                  = aws_vpc.this.id # The ID of VPC
+        arn                 = aws_vpc.this.arn # Amazon Resource Name (ARN) of VPC
+        owner_id            = aws_vpc.this.owner_id # The ID of the AWS account that owns the VPC.
+        cidr_block          = aws_vpc.this.cidr_block # IPv4 CIDR block
+        ipv6_cidr_block     = aws_vpc.this.ipv6_cidr_block # IPv6 CIDR block
+        instance_tenancy    = aws_vpc.this.instance_tenancy # Tenancy of instances spin up within VPC
+    }
 }
 
 output "vpc_default_route_table_id" {
@@ -88,13 +71,29 @@ output "vpc_tags_all" {
     value = aws_vpc.this.tags_all
 }
 
+## Outputs for Internet Gateways
 output "vpc_igw" {
     description = "The details of the Internet Gateway."
     value = var.create_igw ? module.igw[0].igw : null
-
 }
 
 output "vpc_egress_igw_id" {
     description = "The ID of the egress-only Internet gateway."
     value = var.create_egress_only_igw ? module.igw[0].egress_igw_id : null
+}
+
+# Outputs for Subnets
+output "public_subnets" {
+    description = "The configuration of All public subnets"
+    value = module.public_subnets.subnets_config
+}
+
+output "private_subnets" {
+    description = "The configuration of All public subnets"
+    value = module.private_subnets.subnets_config
+}
+
+output "outpost_subnets" {
+    description = "The configuration of All public subnets"
+    value = module.outpost_subnets.subnets_config
 }

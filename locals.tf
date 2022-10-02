@@ -37,4 +37,12 @@ locals {
     default_sg_egress_rules = { for k, v in var.default_sg_rules : k => v if k == "egress" }
 
     vpc_id = try(aws_vpc_ipv4_cidr_block_association.this[0].vpc_id, aws_vpc.this.id, "")
+
+    #VPC Subnets
+    public_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "public-subnets" ])
+    private_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "private-subnets" ])
+    outpost_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "outpost-subnets" ])
+}
+output "x" {
+    value = local.public_subnets
 }
