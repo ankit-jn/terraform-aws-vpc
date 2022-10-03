@@ -122,7 +122,7 @@ module "nat_gateways" {
 ## Route Table, uoutes and association to subnets
 ###################################################################
 module "public_route_table" {
-    source = "./modules/route-table"
+    source = "./modules/route_table"
 
     count = (local.public_subnets_count > 0) ? 1 : 0
 
@@ -138,7 +138,7 @@ module "public_route_table" {
 }
 
 module "private_route_table" {
-    source = "./modules/route-table"
+    source = "./modules/route_table"
 
     count = (local.private_subnets_count > 0) ? 1 : 0
 
@@ -153,7 +153,7 @@ module "private_route_table" {
 }
 
 module "outpost_route_table" {
-    source = "./modules/route-table"
+    source = "./modules/route_table"
 
     count = (local.outpost_subnets_count > 0) ? 1 : 0
 
@@ -168,7 +168,7 @@ module "outpost_route_table" {
 }
 
 module "application_route_table" {
-    source = "./modules/route-table"
+    source = "./modules/route_table"
 
     count = (local.application_subnets_count > 0) ? 1 : 0
 
@@ -183,7 +183,7 @@ module "application_route_table" {
 }
 
 module "db_route_table" {
-    source = "./modules/route-table"
+    source = "./modules/route_table"
 
     count = (local.db_subnets_count > 0) ? 1 : 0
 
