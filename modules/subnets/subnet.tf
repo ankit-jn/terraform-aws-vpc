@@ -1,7 +1,7 @@
 ###############################
 ## Provision Map of Subnets
 ###############################
-resource aws_subnet "snet" {
+resource aws_subnet "this" {
     
     for_each = local.subnet_configs
 

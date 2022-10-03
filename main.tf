@@ -89,6 +89,35 @@ module "outpost_subnets" {
     default_tags = merge(var.default_tags, var.subnet_default_tags)
 }
 
+# application Subnets
+module "application_subnets" {
+    source = "./modules/subnets"
+
+    vpc_id = aws_vpc.this.id
+    subnets = local.application_subnets
+    default_tags = merge(var.default_tags, var.subnet_default_tags)
+}
+
+# db Subnets
+module "db_subnets" {
+    source = "./modules/subnets"
+
+    vpc_id = aws_vpc.this.id
+    subnets = local.db_subnets
+    default_tags = merge(var.default_tags, var.subnet_default_tags)
+}
+###################################################################
+## Nat Gateway
+###################################################################
+module "nat_gateways" {
+    source = "./modules/nat_gateways"
+
+    vpc_name = local.vpc_name
+    nat_gateways = var.nat_gateways
+    subnets = module.public_subnets.subnets_config
+    tags = merge(var.default_tags, var.nat_gateway_tags)
+}
+
 ###################################################################
 ## Route Table, uoutes and association to subnets
 ###################################################################
@@ -118,6 +147,9 @@ module "private_route_table" {
 
     rt_type = "private"
     subnets = module.private_subnets.subnets_config
+
+    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
+    nat_gateway_id = try(local.nat_gateway_ids[0], "")
 }
 
 module "outpost_route_table" {
@@ -130,6 +162,39 @@ module "outpost_route_table" {
 
     rt_type = "private"
     subnets = module.outpost_subnets.subnets_config
+
+    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
+    nat_gateway_id = try(local.nat_gateway_ids[0], "")
+}
+
+module "application_route_table" {
+    source = "./modules/route-table"
+
+    count = (var.dedicated_application_network_acl && (local.application_subnets_count > 0)) ? 1 : 0
+
+    vpc_id = aws_vpc.this.id
+    vpc_name = local.vpc_name
+
+    rt_type = "application"
+    subnets = module.application_subnets.subnets_config
+
+    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
+    nat_gateway_id = try(local.nat_gateway_ids[0], "")
+}
+
+module "db_route_table" {
+    source = "./modules/route-table"
+
+    count = (var.dedicated_db_network_acl && (local.db_subnets_count > 0)) ? 1 : 0
+
+    vpc_id = aws_vpc.this.id
+    vpc_name = local.vpc_name
+
+    rt_type = "database"
+    subnets = module.db_subnets.subnets_config
+
+    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
+    nat_gateway_id = try(local.nat_gateway_ids[0], "")
 }
 
 ##############################################################
@@ -181,5 +246,37 @@ module "outpost_network_acl" {
 
     acl_type = "outpost"
     nacl_rules = var.outpost_nacl_rules
+    tags = merge(var.default_tags, var.network_acl_default_tags)
+}
+
+# Application Network ACLs and Network ACL Rules
+module "application_network_acl" {
+    source = "./modules/nacl"
+
+    count = (var.dedicated_application_network_acl && (local.application_subnets_count > 0)) ? 1 : 0
+
+    vpc_id = aws_vpc.this.id
+    vpc_name = local.vpc_name
+    
+    subnet_id = values(module.application_subnets.subnets_config)[*].id
+
+    acl_type = "application"
+    nacl_rules = var.application_nacl_rules
+    tags = merge(var.default_tags, var.network_acl_default_tags)
+}
+
+# Database Network ACLs and Network ACL Rules
+module "db_network_acl" {
+    source = "./modules/nacl"
+
+    count = (var.dedicated_db_network_acl && (local.db_subnets_count > 0)) ? 1 : 0
+
+    vpc_id = aws_vpc.this.id
+    vpc_name = local.vpc_name
+    
+    subnet_id = values(module.db_subnets.subnets_config)[*].id
+
+    acl_type = "database"
+    nacl_rules = var.db_nacl_rules
     tags = merge(var.default_tags, var.network_acl_default_tags)
 }
