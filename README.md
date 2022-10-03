@@ -50,8 +50,19 @@ This module features the following components to be provisioned with different c
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="vpc_base_configs"></a> [vpc_base_configs](#input\_vpc\_base\_configs) | Basic configuration Map for VPC with the following entries: <br> <b>vpc_name</b> - (Optional) The name of the VPC; Default value - "" <br> <b>use_ipv4_ipam_pool</b> - (Optional) Set flag true if use ipam pool for IPv4 CIDRs; Default value - false<br> <b>enable_ipv6</b> - (Optional) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC; Default value - false<br> <b>use_ipv6_ipam_pool</b> - (Optional) Set flag true if use ipam pool for IPv6 CIDRs; Default value - false<br> <b>instance_tenancy</b> - (Optional) A tenancy option for instances launched into the VPC; Defaule value - "default"<br> <b>enable_dhcp_options</b> - (Optional) Set it to true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type; Default value - false| `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"            = "my-vpc"<br>     "use_ipv4_ipam_pool"  = false<br>     "enable_ipv6"         = true<br>     "use_ipv6_ipam_pool"  = false<br>     "instance_tenancy"    = "default"<br>     "enable_dhcp_options" = false<br>}<pre>|
+| <a name="vpc_base_configs"></a> [vpc_base_configs](#input\_vpc\_base\_configs) | Basic configuration Map for VPC | `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"            = "my-vpc"<br>     "use_ipv4_ipam_pool"  = false<br>     "enable_ipv6"         = true<br>     "use_ipv6_ipam_pool"  = false<br>     "instance_tenancy"    = "default"<br>     "enable_dhcp_options" = false<br>}<pre>|
 
+
+## Blocks:  vpc_base_configs
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="vpc_name"></a> [vpc_name](#input\_vpc\_name) | The name of the VPC | `map` | `""` | no |
+| <a name="use_ipv4_ipam_pool"></a> [use_ipv4_ipam_pool](#input\_use\_ipv4\_ipam\_pool) | Set flag true if use ipam pool for IPv4 CIDRs | `boolean` | `false` | no |
+| <a name="enable_ipv6"></a> [enable_ipv6](#input\_enable\_ipv6) | Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC | `boolean` | `false` | no |
+| <a name="use_ipv6_ipam_pool"></a> [use_ipv6_ipam_pool](#input\_use\_ipv6\_ipam\_pool) | Set flag true if use ipam pool for IPv6 CIDRs | `boolean` | `false` | no |
+| <a name="instance_tenancy"></a> [instance_tenancy](#input\_instance\_tenancy) | A tenancy option for instances launched into the VPC | `string` | `"default"` | no |
+| <a name="enable_dhcp_options"></a> [enable_dhcp_options](#enable\_dhcp\_options) | Set it to true if you want to specify a DHCP options set | `boolean` | `false` | no |
 
 ## Authors
 
