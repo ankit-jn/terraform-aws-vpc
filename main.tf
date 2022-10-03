@@ -124,7 +124,7 @@ module "nat_gateways" {
 module "public_route_table" {
     source = "./modules/route-table"
 
-    count = (var.dedicated_public_network_acl && (local.public_subnets_count > 0)) ? 1 : 0
+    count = (local.public_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
     vpc_name = local.vpc_name
@@ -140,7 +140,7 @@ module "public_route_table" {
 module "private_route_table" {
     source = "./modules/route-table"
 
-    count = (var.dedicated_private_network_acl && (local.private_subnets_count > 0)) ? 1 : 0
+    count = (local.private_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
     vpc_name = local.vpc_name
@@ -148,14 +148,14 @@ module "private_route_table" {
     rt_type = "private"
     subnets = module.private_subnets.subnets_config
 
-    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
-    nat_gateway_id = try(local.nat_gateway_ids[0], "")
+    create_nat_gateway_routes = local.enable_nat_gateway
+    nat_gateway_id = local.single_nat_gateway ? local.nat_gateway_ids[0] : local.nat_gateways_for_private_subnets
 }
 
 module "outpost_route_table" {
     source = "./modules/route-table"
 
-    count = (var.dedicated_outpost_network_acl && (local.outpost_subnets_count > 0)) ? 1 : 0
+    count = (local.outpost_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
     vpc_name = local.vpc_name
@@ -163,14 +163,14 @@ module "outpost_route_table" {
     rt_type = "private"
     subnets = module.outpost_subnets.subnets_config
 
-    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
-    nat_gateway_id = try(local.nat_gateway_ids[0], "")
+    create_nat_gateway_routes = local.enable_nat_gateway
+    nat_gateway_id = local.single_nat_gateway ? local.nat_gateway_ids[0] : local.nat_gateways_for_outpost_subnets
 }
 
 module "application_route_table" {
     source = "./modules/route-table"
 
-    count = (var.dedicated_application_network_acl && (local.application_subnets_count > 0)) ? 1 : 0
+    count = (local.application_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
     vpc_name = local.vpc_name
@@ -178,14 +178,14 @@ module "application_route_table" {
     rt_type = "application"
     subnets = module.application_subnets.subnets_config
 
-    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
-    nat_gateway_id = try(local.nat_gateway_ids[0], "")
+    create_nat_gateway_routes = local.enable_nat_gateway
+    nat_gateway_id = local.single_nat_gateway ? local.nat_gateway_ids[0] : local.nat_gateways_for_application_subnets
 }
 
 module "db_route_table" {
     source = "./modules/route-table"
 
-    count = (var.dedicated_db_network_acl && (local.db_subnets_count > 0)) ? 1 : 0
+    count = (local.db_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
     vpc_name = local.vpc_name
@@ -193,8 +193,8 @@ module "db_route_table" {
     rt_type = "database"
     subnets = module.db_subnets.subnets_config
 
-    create_nat_gateway_routes = local.nat_gateways_count > 0 ? true : false
-    nat_gateway_id = try(local.nat_gateway_ids[0], "")
+    create_nat_gateway_routes = local.enable_nat_gateway
+    nat_gateway_id = local.single_nat_gateway ? local.nat_gateway_ids[0] : local.nat_gateways_for_db_subnets
 }
 
 ##############################################################

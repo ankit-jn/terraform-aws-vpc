@@ -201,6 +201,7 @@ EOF
   type        = list(map(string))
   default     = []
 }
+
 #########################################
 ## Network ACLs
 #########################################
@@ -553,6 +554,26 @@ Map Value - Subnet Name in which Nat Gatway will be created
 EOF
     type = map
     default = {}
+}
+
+variable "nat_gateway_routes" {
+    description = <<EOF
+The configuration map for associating NAT Gateways in Route tables
+Map Keys: The key would be the following values -
+1. "private-subnets"
+2. "outpost-subnets"
+3. "application-subnets
+4. "db-subnets"
+
+Map Values: The identifier of the nat_gateways map
+
+Purpose: 
+The purpose of this map variable is to select Nat Gatways for defining routes in key specific route Table
+
+Note: In case of Single nat gateway; This variable is not required; as the one will be set intelligently
+EOF
+    default = {}
+
 }
 
 ## Tags
