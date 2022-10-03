@@ -15,7 +15,7 @@ EOF
 
 variable "vpc_ipv4_configs" {
     description = <<EOF
-(Required) Reference Values for IPv4 CIDR:"
+(Required) Configuration Map for IPv4 with the following entries:
 
 Note - 
 Either set the value of property [ipv4_cidr_block] to explicitely set CIDR block for VPC  
@@ -32,8 +32,9 @@ EOF
 
 variable "vpc_ipv6_configs" {
     description = <<EOF
-(Optional) Reference Values for IPv6 CIDR requested from IPAM: 
-[Required only if vpc_base_configs.enable_ipv6 is set true]
+(Optional) Configuration Map for IPv6 CIDR requested from IPAM with following entries:
+
+[Required only if vpc_base_configs.enable_ipv6 is set true and vpc_base_configs.use_ipv6_ipam_pool is set true]
 
 ipam_pool_id - IPAM Pool ID for a IPv6 pool.
 
@@ -56,7 +57,8 @@ variable "ipv6_cidr_block_network_border_group" {
 
 variable "vpc_dns_configs" {
     description = <<EOF
-(Optional) Configuration Map for DNS Support:"
+(Optional) Configuration Map for DNS Support with the following entries:
+
 enable_dns_support - (Optional) A boolean flag to enable/disable DNS support in the VPC.
 vpc_dns_host_name - (Optional) A boolean flag to enable/disable DNS hostnames in the VPC.
 EOF
@@ -69,7 +71,8 @@ EOF
 
 variable "vpc_classiclink_configs" {
     description = <<EOF
-(Optional) Configuration Map for CLassic Link:"
+(Optional) Configuration Map for CLassic Link with the following entries:
+
 enable_classiclink - (Optional) A boolean flag to enable/disable ClassicLink for the VPC.
 enable_classiclink_dns_support - (Optional) A boolean flag to enable/disable ClassicLink DNS Support for the VPC.
 EOF

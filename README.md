@@ -51,11 +51,11 @@ This module features the following components to be provisioned with different c
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="vpc_base_configs"></a> [vpc_base_configs](#vpc\_base\_configs) | Basic Configuration Map for VPC | `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"            = "my-vpc"<br>     "use_ipv4_ipam_pool"  = false<br>     "enable_ipv6"         = true<br>     "use_ipv6_ipam_pool"  = false<br>     "instance_tenancy"    = "default"<br>     "enable_dhcp_options" = false<br>}<pre>|
-| <a name="vpc_ipv4_configs"></a> [vpc_ipv4_configs](#vpc\_ipv4\_configs) | Configuration Map for IPv4 | `map` | `` | yes | <pre>vpc_ipv4_configs = {<br>     "cidr_block"            = "10.0.0.0/16"}<pre>|
-| <a name="vpc_ipv6_configs"></a> [vpc_ipv6_configs](#vpc\_ipv6\_configs) | Configuration Map for IPv6 | `map` | `null` | no | <pre>vpc_ipv6_configs = {<br>     "cidr_block"            = "2001:db8:1234:1a00::/64"}<pre>|
-| <a name="ipv6_cidr_block_network_border_group"></a> [ipv6_cidr_block_network_border_group](#input\_ipv6\_cidr\_block\_network\_border\_group) | By default when an IPv6 CIDR is assigned to a VPC a default ipv6_cidr_block_network_border_group will be set to the region of the VPC. | `number` | `null` | no | |
-| <a name="vpc_dns_configs"></a> [vpc_dns_configs](#input\_enable\_vpc\_dns\_configs) | Configuration Map for DNS Support | `map` | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> | no | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> |
-| <a name="vpc_classiclink_configs"></a> [vpc_classiclink_configs](#input\_vpc\_classiclink\_configs) | Configuration Map for CLassic Link | `map` | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> | no | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> |
+| <a name="vpc_ipv4_configs"></a> [vpc_ipv4_configs](#vpc\_ipv4\_configs) | Configuration Map for IPv4 | `map` |  | yes | <pre>vpc_ipv4_configs = {<br>     "cidr_block" = "10.0.0.0/16"<br>}<pre>|
+| <a name="vpc_ipv6_configs"></a> [vpc_ipv6_configs](#vpc\_ipv6\_configs) | Configuration Map for IPv6 | `map` | `null` | no | <pre>vpc_ipv6_configs = {<br>     "cidr_block" = "2001:db8:1234:1a00::/64"<br>}<pre>|
+| <a name="ipv6_cidr_block_network_border_group"></a> [ipv6_cidr_block_network_border_group](#ipv6\_cidr\_block\_network\_border\_group) | By default when an IPv6 CIDR is assigned to a VPC a default ipv6_cidr_block_network_border_group will be set to the region of the VPC. | `number` | `null` | no | |
+| <a name="vpc_dns_configs"></a> [vpc_dns_configs](#enable\_vpc\_dns\_configs) | Configuration Map for DNS Support | `map` | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> | no | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> |
+| <a name="vpc_classiclink_configs"></a> [vpc_classiclink_configs](#vpc\_classiclink\_configs) | Configuration Map for CLassic Link | `map` | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> | no | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> |
 
 
 ## Nested Configuration Maps:  
@@ -83,7 +83,7 @@ Either set the value of property [`cidr_block`] to explicitely set CIDR block fo
 
 ## vpc_ipv6_configs
 
-[Required only if vpc_base_configs.enable_ipv6 is set true]
+[Required only if vpc_base_configs.enable_ipv6 is set true and vpc_base_configs.use_ipv6_ipam_pool is true]
 
 Either set the value of property [`cidr_block`] to explicitely set CIDR block for VPC or Set the ipam specific property [`netmask_length`] for deriving CIDR from IPAM 
 
