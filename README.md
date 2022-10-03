@@ -3,7 +3,7 @@
 A Terraform module for building VPC in AWS.
 
 ---
-
+## Resources
 This module features the following components to be provisioned with different combinations:
 
 - VPC [`aws_vpc`]
@@ -50,10 +50,12 @@ This module features the following components to be provisioned with different c
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="vpc_base_configs"></a> [vpc_base_configs](#input\_vpc\_base\_configs) | Basic configuration Map for VPC | `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"            = "my-vpc"<br>     "use_ipv4_ipam_pool"  = false<br>     "enable_ipv6"         = true<br>     "use_ipv6_ipam_pool"  = false<br>     "instance_tenancy"    = "default"<br>     "enable_dhcp_options" = false<br>}<pre>|
+| <a name="vpc_base_configs"></a> [vpc_base_configs](#vpc\_base\_configs) | Basic Configuration Map for VPC | `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"            = "my-vpc"<br>     "use_ipv4_ipam_pool"  = false<br>     "enable_ipv6"         = true<br>     "use_ipv6_ipam_pool"  = false<br>     "instance_tenancy"    = "default"<br>     "enable_dhcp_options" = false<br>}<pre>|
 
 
-## Blocks:  vpc_base_configs
+## Nested Configuration Maps:  
+
+## vpc_base_configs
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
