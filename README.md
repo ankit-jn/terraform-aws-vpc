@@ -49,13 +49,8 @@ This module features the following components to be provisioned with different c
 ## Inputs
 
 | Name | Description | Type | Default | Required | Example|
-|------|-------------|------|---------|:--------:|---------|
-| <a name="vpc_base_configs"></a> | Basic configuration Map for VPC with the following entries: vpc_name - (Optional) The name of the VPC; Default value - ""
-use_ipv4_ipam_pool - (Optional) Set flag true if use ipam pool for IPv4 CIDRs; Default value - false
-enable_ipv6 - (Optional) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC; Default value - false
-use_ipv6_ipam_pool - (Optional) Set flag true if use ipam pool for IPv6 CIDRs; Default value - false
-instance_tenancy - (Optional) A tenancy option for instances launched into the VPC; Defaule value - "default"
-enable_dhcp_options - (Optional) Set it to true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type; Default value - false| `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"         	= "my-vpc"<br>     "use_ipv4_ipam_pool"   = false<br>     "enable_ipv6" 			= true<br>     "use_ipv6_ipam_pool"   = false<br>     "instance_tenancy"     = "default"<br>     "enable_dhcp_options"  = false<br>   }<pre>|
+|------|-----------------------------------------|------|---------|:--------:|---------|
+| <a name="vpc_base_configs"></a> [vpc_base_configs](#input\_vpc\_base\_configs) | Basic configuration Map for VPC with the following entries: <br> vpc_name - (Optional) The name of the VPC; Default value - "" <br> use_ipv4_ipam_pool - (Optional) Set flag true if use ipam pool for IPv4 CIDRs; Default value - false<br> enable_ipv6 - (Optional) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC; Default value - false<br> use_ipv6_ipam_pool - (Optional) Set flag true if use ipam pool for IPv6 CIDRs; Default value - false<br> instance_tenancy - (Optional) A tenancy option for instances launched into the VPC; Defaule value - "default"<br> enable_dhcp_options - (Optional) Set it to true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type; Default value - false| `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"         = "my-vpc"<br>     "use_ipv4_ipam_pool"   = false<br>     "enable_ipv6" 			= true<br>     "use_ipv6_ipam_pool"   = false<br>     "instance_tenancy"     = "default"<br>     "enable_dhcp_options"  = false<br>   }<pre>|
 
 ## Authors
 
