@@ -47,12 +47,4 @@ locals {
     private_subnets_count = length(local.private_subnets)
     outpost_subnets_count = length(local.outpost_subnets)
 
-    #Network ACL Rules
-    public_nacl_inbound_rules = { for k, v in var.public_nacl_rules : k => v if k == "inbound" }
-    public_nacl_outbound_rules = { for k, v in var.private_nacl_rules : k => v if k == "outbound" }
-    private_nacl_inbound_rules = { for k, v in var.public_nacl_rules : k => v if k == "inbound" }
-    private_nacl_outbound_rules = { for k, v in var.private_nacl_rules : k => v if k == "outbound" }
-    outpost_nacl_inbound_rules = { for k, v in var.public_nacl_rules : k => v if k == "inbound" }
-    outpost_nacl_outbound_rules = { for k, v in var.private_nacl_rules : k => v if k == "outbound" }
-
 }

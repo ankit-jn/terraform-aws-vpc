@@ -74,12 +74,12 @@ output "vpc_tags_all" {
 ## Outputs for Internet Gateways
 output "vpc_igw" {
     description = "The details of the Internet Gateway."
-    value = var.create_igw ? module.igw[0].igw_configs : null
+    value = try(module.igw[0].igw_configs, "")
 }
 
 output "vpc_egress_igw_id" {
     description = "The ID of the egress-only Internet gateway."
-    value = var.create_egress_only_igw ? module.igw[0].egress_igw_id : null
+    value = try(module.igw[0].egress_igw_id, "")
 }
 
 # Outputs for Subnets
@@ -99,12 +99,17 @@ output "outpost_subnets" {
 }
 
 # Outputs for Route Tables
-output "public_route_table_ids" {
-  description = "List of IDs of public route tables"
-  value       = aws_route_table.public[*].id
+output "public_route_table_id" {
+    description = "ID of public route table"
+    value       = try(module.public_route_table[0].route_table_id, "")
 }
 
-output "private_route_table_ids" {
-  description = "List of IDs of private route tables"
-  value       = aws_route_table.private[*].id
+output "private_route_table_id" {
+    description = "ID of private route table"
+    value       = try(module.private_route_table[0].route_table_id, "")
+}
+
+output "outpost_route_table_id" {
+  description = "ID of outpost route table"
+  value       = try(module.outpost_route_table[0].route_table_id, "")
 }
