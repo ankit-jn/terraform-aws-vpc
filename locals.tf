@@ -51,6 +51,16 @@ locals {
     application_subnets_count = length(local.application_subnets)
     db_subnets_count = length(local.db_subnets)
 
-    nat_gateways_count = length(keys(var.nat_gateways))
-    nat_gateway_ids = local.nat_gateways_count > 0 ? values(module.nat_gateways.nat_gatways_config)[*].id : []
+
+    ## NAT Gateway and ROutes association specific variables
+    enable_nat_gateway = length(keys(var.nat_gateways)) > 0
+    single_nat_gateway = length(keys(var.nat_gateways)) == 1
+    multiple_nat_gateways = length(keys(var.nat_gateways)) > 1
+
+    nat_gateway_ids = local.enable_nat_gateway ? values(module.nat_gateways.nat_gatways_config)[*].id : []
+
+    nat_gateways_for_private_subnets = local.multiple_nat_gateways && can(var.nat_gateway_routes["private-subnets"]) ? (module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["private-subnets"]].id) : local.nat_gateway_ids[0]
+    nat_gateways_for_outpost_subnets = local.multiple_nat_gateways && can(var.nat_gateway_routes["outpost-subnets"]) ? (module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["outpost-subnets"]].id) : local.nat_gateway_ids[0]
+    nat_gateways_for_application_subnets = local.multiple_nat_gateways && can(var.nat_gateway_routes["application-subnets"]) ? (module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["application-subnets"]].id) : local.nat_gateway_ids[0]
+    nat_gateways_for_db_subnets = local.multiple_nat_gateways && can(var.nat_gateway_routes["db-subnets"]) ? (module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["db-subnets"]].id) : local.nat_gateway_ids[0]
 }

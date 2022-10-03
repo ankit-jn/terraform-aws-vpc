@@ -9,6 +9,8 @@ output nat_gatways_config {
                     network_interface_id    = nat_gatway.network_interface_id
                     private_ip              = nat_gatway.private_ip
                     public_ip               = nat_gatway.public_ip
+                    subnet_id               = nat_gatway.subnet_id
+                    subnet_name             = var.nat_gateways[nat_key]
                 }
     }
 }
