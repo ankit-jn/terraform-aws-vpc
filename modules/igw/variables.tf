@@ -15,7 +15,7 @@ variable "create_egress_only_igw" {
     default = false
 }
 
-variable "igw_tags" {
+variable "tags" {
     description = "(Optional) A map of tags to assign to the resource."
     type = map
     default = {}

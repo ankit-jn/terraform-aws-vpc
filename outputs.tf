@@ -74,7 +74,7 @@ output "vpc_tags_all" {
 ## Outputs for Internet Gateways
 output "vpc_igw" {
     description = "The details of the Internet Gateway."
-    value = var.create_igw ? module.igw[0].igw : null
+    value = var.create_igw ? module.igw[0].igw_configs : null
 }
 
 output "vpc_egress_igw_id" {

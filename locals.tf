@@ -42,6 +42,9 @@ locals {
     public_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "public-subnets" ])
     private_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "private-subnets" ])
     outpost_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "outpost-subnets" ])
+
+    public_subnets_count = length(local.public_subnets)
+    private_subnets_count = length(local.private_subnets)
 }
 output "x" {
     value = local.public_subnets

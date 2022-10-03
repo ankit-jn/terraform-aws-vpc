@@ -104,12 +104,6 @@ EOF
 
 }
 
-variable "vpc_tags" {
-    description = "(Optional) A map of tags to assign to the resource."
-    type = map
-    default = {}
-}
-
 ####################################
 ## DHCP Options Specific Variables 
 ####################################
@@ -311,12 +305,6 @@ variable "create_egress_only_igw" {
     default = false
 }
 
-variable "igw_tags" {
-    description = "(Optional) A map of tags to assign to the resource."
-    type = map
-    default = {}
-}
-
 ####################################################
 ## Subnets
 ####################################################
@@ -360,6 +348,32 @@ Each value of the map would be another map of the following key values:
 5. subnet_tags: (Optional) A map of tags to assign to the resource."
 
 EOF
+    type = map
+    default = {}
+}
+
+## Tags
+
+variable "default_tags" {
+    description = "(Optional) A map of tags to assign to all the resource."
+    type = map
+    default = {}
+}
+
+variable "vpc_tags" {
+    description = "(Optional) A map of tags to assign to the VPC."
+    type = map
+    default = {}
+}
+
+variable "igw_tags" {
+    description = "(Optional) A map of tags to assign to IGW."
+    type = map
+    default = {}
+}
+
+variable "rt_default_tags" {
+    description = "(Optional) A map of tags to assign to the route Tables."
     type = map
     default = {}
 }

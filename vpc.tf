@@ -29,7 +29,7 @@ resource aws_vpc "this" {
     enable_classiclink_dns_support          = local.enable_classiclink_dns_support
     
     #Tags
-    tags = merge({"Name" = format("%s", local.vpc_name)}, var.vpc_tags)
+    tags = merge({"Name" = format("%s", local.vpc_name)}, var.default_tags, var.vpc_tags)
 }
 
 resource aws_vpc_ipv4_cidr_block_association "this" {
@@ -55,5 +55,6 @@ module "igw" {
 
   create_igw = var.create_igw
   create_egress_only_igw = var.create_egress_only_igw
-  igw_tags = var.igw_tags
+  
+  tags = merge({"Name" = format("%s-igw", local.vpc_name)}, var.default_tags, var.igw_tags)
 }
