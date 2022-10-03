@@ -1,5 +1,5 @@
 ###################################################################
-## Public route Table
+## Public route Table, Routes and Association to Public Subnets
 ###################################################################
 resource aws_route_table "public" {
     count = local.public_subnets_count > 0 ? 1 : 0
@@ -18,7 +18,7 @@ resource aws_route "igw_ipv4_route" {
 
   route_table_id         = aws_route_table.public[0].id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = var.create_igw ? module.igw[0].igw_configs.id : null
+  gateway_id             = module.igw[0].igw_configs.id
 
   timeouts {
     create = "5m"
@@ -37,8 +37,15 @@ resource aws_route "igw_ipv6_route" {
   }
 }
 
+resource aws_route_table_association "public" {
+  for_each = module.public_subnets.subnets_config
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.public[0].id
+}
+
 ###################################################################
-## Private route Table
+## Private route Table, Routes and Association to private Subnets
 ###################################################################
 resource aws_route_table "private" {
     count = local.private_subnets_count > 0 ? 1 : 0
@@ -50,6 +57,23 @@ resource aws_route_table "private" {
         var.default_tags, 
         var.rt_default_tags
     )
+}
+
+resource aws_route_table_association "private" {
+  for_each = module.private_subnets.subnets_config
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.private[0].id
+}
+
+###################################################################
+## Outpost subnets association with private route Table 
+###################################################################
+resource aws_route_table_association "outpost" {
+  for_each = module.outpost_subnets.subnets_config
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.private[0].id
 }
 
 ###################################################################
