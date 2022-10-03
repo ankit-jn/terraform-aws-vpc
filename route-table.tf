@@ -1,4 +1,58 @@
 ###################################################################
+## Public route Table
+###################################################################
+resource aws_route_table "public" {
+    count = local.public_subnets_count > 0 ? 1 : 0
+
+    vpc_id = aws_vpc.this.id
+
+    tags = merge(
+        {"Name" = format("%s-rt-public", local.vpc_name)}, 
+        var.default_tags, 
+        var.rt_default_tags
+    )
+}
+
+resource aws_route "igw_ipv4_route" {
+  count = (var.create_igw && local.public_subnets_count > 0) ? 1 : 0
+
+  route_table_id         = aws_route_table.public[0].id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = var.create_igw ? module.igw[0].igw_configs.id : null
+
+  timeouts {
+    create = "5m"
+  }
+}
+
+resource aws_route "igw_ipv6_route" {
+  count = (var.create_egress_only_igw && local.public_subnets_count > 0) ? 1 : 0
+
+  route_table_id                = aws_route_table.public[0].id
+  destination_ipv6_cidr_block   = "::/0"
+  gateway_id                    = module.igw[0].egress_igw_id
+
+  timeouts {
+    create = "5m"
+  }
+}
+
+###################################################################
+## Private route Table
+###################################################################
+resource aws_route_table "private" {
+    count = local.private_subnets_count > 0 ? 1 : 0
+
+    vpc_id = aws_vpc.this.id
+
+    tags = merge(
+        {"Name" = format("%s-rt-private", local.vpc_name)}, 
+        var.default_tags, 
+        var.rt_default_tags
+    )
+}
+
+###################################################################
 ## Default route Table
 ###################################################################
 
@@ -34,5 +88,9 @@ resource aws_default_route_table "default" {
         update = "5m"
     }
 
-    tags = merge({"Name" = format("%s", local.vpc_name)}, var.vpc_tags)
+    tags = merge(
+        {"Name" = format("%s-rt-default", local.vpc_name)}, 
+        var.default_tags, 
+        var.rt_default_tags
+    )
 }

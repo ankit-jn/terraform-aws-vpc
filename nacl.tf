@@ -37,8 +37,11 @@ resource aws_default_network_acl "this" {
     }
   }
 
-  tags = merge({"Name" = format("%s", local.vpc_name)}, var.vpc_tags)
-
+  tags = merge(
+    {"Name" = format("%s-nacl-default", local.vpc_name)}, 
+    var.default_tags
+  )
+  
   lifecycle {
     ignore_changes = [subnet_ids]
   }

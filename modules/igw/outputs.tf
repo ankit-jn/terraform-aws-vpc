@@ -1,4 +1,4 @@
-output "igw" {
+output "igw_configs" {
     description = "The details of the Internet Gateway."
     value = var.create_igw ? {
         id                      = aws_internet_gateway.this[0].id
@@ -10,5 +10,5 @@ output "igw" {
 
 output "egress_igw_id" {
     description = "The ID of the egress-only Internet gateway."
-    value = var.create_egress_only_igw ? aws_egress_only_internet_gateway.this[0].id : null
+    value = var.create_egress_only_igw ? aws_egress_only_internet_gateway.this[0].id : "null"
 }

@@ -34,4 +34,9 @@ resource aws_default_security_group "sg_default" {
       cidr_blocks = egress.value.cidr_blocks    
     }
   }
+
+  tags = merge(
+    {"Name" = format("%s-sg-default", local.vpc_name)}, 
+    var.default_tags
+  )
 }
