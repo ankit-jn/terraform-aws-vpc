@@ -1,4 +1,4 @@
-# ARJSTAK: AWS VPC Terraform module
+# ARJ-Stack: AWS VPC Terraform module
 
 A Terraform module for building VPC in AWS.
 
