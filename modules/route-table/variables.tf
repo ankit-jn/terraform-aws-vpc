@@ -42,6 +42,19 @@ variable "egress_igw_id" {
     type = string
     default = ""
 }
+
+variable "create_nat_gateway_routes" {
+    description = "value"
+    type = bool
+    default = false
+}
+
+variable "nat_gateway_id" {
+    description = "The ID of the NAT Gateway"
+    type = string
+    default = null
+}
+
 variable "tags" {
     description = "(Optional) A map of tags to assign to Route Table."
     type = map

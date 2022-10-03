@@ -316,6 +316,80 @@ EOF
     }
 }
 
+variable "dedicated_application_network_acl" {
+  description = "Set true if dedicated network ACL is required for Application subnets"
+  type        = bool
+  default     = false
+}
+
+variable "application_nacl_rules" {
+    description = <<EOF
+(Optional) Reference Values for Rules for Application Dedicated Network ACL:"
+It is a map of Rule Pairs where,
+Key of the map is Rule Type and Value of the map would be an array of Rules Map 
+There could be 2 Rule Types [Keys] : 'inbound', 'outbound'
+EOF
+    default = {
+      "inbound" = [
+        {
+          rule_number = 100
+          rule_action = "allow"
+          from_port   = 0
+          to_port     = 0
+          protocol    = "-1"
+          cidr_block  = "0.0.0.0/0"
+        },
+      ],
+      "outbound" = [
+        {
+          rule_number = 100
+          rule_action = "allow"
+          from_port   = 0
+          to_port     = 0
+          protocol    = "-1"
+          cidr_block  = "0.0.0.0/0"
+        },
+      ]
+    }
+}
+
+variable "dedicated_db_network_acl" {
+  description = "Set true if dedicated network ACL is required for Database subnets"
+  type        = bool
+  default     = false
+}
+
+variable "db_nacl_rules" {
+    description = <<EOF
+(Optional) Reference Values for Rules for Database Dedicated Network ACL:"
+It is a map of Rule Pairs where,
+Key of the map is Rule Type and Value of the map would be an array of Rules Map 
+There could be 2 Rule Types [Keys] : 'inbound', 'outbound'
+EOF
+    default = {
+      "inbound" = [
+        {
+          rule_number = 100
+          rule_action = "allow"
+          from_port   = 0
+          to_port     = 0
+          protocol    = "-1"
+          cidr_block  = "0.0.0.0/0"
+        },
+      ],
+      "outbound" = [
+        {
+          rule_number = 100
+          rule_action = "allow"
+          from_port   = 0
+          to_port     = 0
+          protocol    = "-1"
+          cidr_block  = "0.0.0.0/0"
+        },
+      ]
+    }
+}
+
 variable "default_network_acl" {
   description = "List of maps of egress rules to set on the Default Network ACL"
   type        = map
@@ -425,7 +499,12 @@ variable "subnets" {
     description = <<EOF
 (Required) The configuration Map of Subnets where,
 Key of the map is Subnet Type and Value of the map would be an array of Subnets Map 
-There could be 3 Subnet Types [Keys] : 'public-subnets', 'private-subnets', 'outpost-subnets'
+There could be 5 Subnet Types [Keys] : 
+'public-subnets', 
+'private-subnets', 
+'outpost-subnets', 
+'application-subnets', 
+'db-subnets'
 
 Each value of the map would be another map of the following key values:
 
@@ -465,6 +544,17 @@ EOF
     default = {}
 }
 
+## NAT Gateways
+variable "nat_gateways" {
+    description = <<EOF
+The configuration map of Nat Gateways
+Map Key - Unique identifier for Nat Gateway Name
+Map Value - Subnet Name in which Nat Gatway will be created
+EOF
+    type = map
+    default = {}
+}
+
 ## Tags
 
 variable "default_tags" {
@@ -499,6 +589,12 @@ variable "subnet_default_tags" {
 
 variable "network_acl_default_tags" {
     description = "(Optional) A map of tags to assign to all the Network ACLs."
+    type = map
+    default = {}
+}
+
+variable "nat_gateway_tags" {
+    description = "(Optional) A map of tags to assign to all the NAT Gateways."
     type = map
     default = {}
 }

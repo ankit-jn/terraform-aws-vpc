@@ -1,7 +1,7 @@
 output subnets_config {    
     description = "The Subnet Details"
     value = { 
-        for subney_key, subnet in aws_subnet.snet : 
+        for subney_key, subnet in aws_subnet.this : 
             subney_key => 
                 {
                     id                      = subnet.id

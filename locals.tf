@@ -42,9 +42,15 @@ locals {
     public_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "public-subnets" ])
     private_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "private-subnets" ])
     outpost_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "outpost-subnets" ])
-
+    application_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "application-subnets" ])
+    db_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "db-subnets" ])
+    
     public_subnets_count = length(local.public_subnets)
     private_subnets_count = length(local.private_subnets)
     outpost_subnets_count = length(local.outpost_subnets)
+    application_subnets_count = length(local.application_subnets)
+    db_subnets_count = length(local.db_subnets)
 
+    nat_gateways_count = length(keys(var.nat_gateways))
+    nat_gateway_ids = local.nat_gateways_count > 0 ? values(module.nat_gateways.nat_gatways_config)[*].id : []
 }
