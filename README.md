@@ -2,10 +2,6 @@
 
 A Terraform module for building VPC in AWS.
 
-[![README Header][readme_header_img]][readme_header_link]
-
-[![ARJ-Stack][logo]](https://www.arjstack.com)
-
 ---
 
 This module features the following components to be provisioned with different combinations:
@@ -36,3 +32,31 @@ This module features the following components to be provisioned with different c
     - Default Security Group [`aws_default_security_group`]
     - Default Network ACL [`aws_default_network_acl`]
     - Default Route Table [`aws_default_route_table`]
+
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.5 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.22.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.22.0 |
+
+## Inputs
+
+| Name | Description | Type | Default | Required | Example|
+|------|-------------|------|---------|:--------:|---------|
+| <a name="vpc_base_configs"></a> | Basic configuration Map for VPC with the following entries: vpc_name - (Optional) The name of the VPC; Default value - ""
+use_ipv4_ipam_pool - (Optional) Set flag true if use ipam pool for IPv4 CIDRs; Default value - false
+enable_ipv6 - (Optional) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC; Default value - false
+use_ipv6_ipam_pool - (Optional) Set flag true if use ipam pool for IPv6 CIDRs; Default value - false
+instance_tenancy - (Optional) A tenancy option for instances launched into the VPC; Defaule value - "default"
+enable_dhcp_options - (Optional) Set it to true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type; Default value - false| `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "vpc_name"         	= "my-vpc"<br>     "use_ipv4_ipam_pool"   = false<br>     "enable_ipv6" 			= true<br>     "use_ipv6_ipam_pool"   = false<br>     "instance_tenancy"     = "default"<br>     "enable_dhcp_options"  = false<br>   }<pre>|
+
+## Authors
+
+Module is maintained by [Ankit Jain](https://github.com/ankit-jn) with help from [these professional](https://github.com/arjstack/terraform-aws-vpc/graphs/contributors).
