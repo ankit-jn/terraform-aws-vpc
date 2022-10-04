@@ -498,13 +498,13 @@ EOF
 ## Internet Gateway and Egress Only Internet Gateway
 ####################################################
 variable "create_igw" {
-    description = "(Optional) Flag to set whether to create internet gateway
+    description = "(Optional) Flag to set whether to create internet gateway"
     type = bool
     default = true
 }
 
 variable "create_egress_only_igw" {
-    description = "(Optional) The VPC ID to create in."
+    description = "(Optional) Flag to set whether to create Egress only internet gateway"
     type = bool
     default = false
 }
