@@ -17,7 +17,7 @@ locals {
             # DNS Configurations
             enable_dns64 = lookup((can(subnet.subnet_dns_configs) ? subnet.subnet_dns_configs : {}), "enable_dns64", false)
             enable_resource_name_dns_a_record_on_launch = lookup((can(subnet.subnet_dns_configs) ? subnet.subnet_dns_configs : {}), "enable_resource_name_dns_a_record_on_launch", false)
-            enable_resource_name_dns_aaaa_record_on_launch = lookup((can(subnet.subnet_dns_configs) ? subnet.subnet_dns_configs : {}), "enable_resource_name_dns_a_record_on_launch", false)
+            enable_resource_name_dns_aaaa_record_on_launch = lookup((can(subnet.subnet_dns_configs) ? subnet.subnet_dns_configs : {}), "enable_resource_name_dns_aaaa_record_on_launch", false)
             private_dns_hostname_type_on_launch = lookup((can(subnet.subnet_dns_configs) ? subnet.subnet_dns_configs : {}), "private_dns_hostname_type_on_launch", null)
 
             tags  = can(subnet.subnet_tags) ? subnet.subnet_tags : {}
