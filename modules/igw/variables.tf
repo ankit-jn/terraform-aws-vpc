@@ -3,6 +3,11 @@ variable "vpc_id" {
     type = string
 }
 
+variable "vpc_name" {
+    description = "The name of the VPC"
+    type = string
+}
+
 variable "create_igw" {
     description = "(Required) The VPC ID to create in."
     type = bool
