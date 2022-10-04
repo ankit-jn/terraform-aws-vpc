@@ -68,7 +68,7 @@ This module features the following components to be provisioned with different c
 | <a name="dhcp_options_netbios_node_type"></a> [dhcp_options_netbios_node_type](#input\_dhcp\_options\_netbios\_node\_type) | The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
 | <a name="create_igw"></a> [create_igw](#input\_create\_igw) | Flag to set whether to create internet gateway | `boolean` | `true` | no | |
 | <a name="create_egress_only_igw"></a> [create_egress_only_igw](#input\_create\_egress\_only\_igw) | Flag to set whether to create Egress only internet gateway | `boolean` | `false` | no | |
-| <a name="subnets"></a> [vpc_name](#subnets) | The configuration Map of Subnets | `map` | `{}` | yes | |
+| <a name="subnets"></a> [subnets](#subnets) | The configuration Map of Subnets | `map` | `{}` | yes | <pre>subnets = {<br>   public-subnets = [<br>      {<br>         subnet_core_configs = {<br>            name = "snet-1"<br>            cidr_block = "10.1.0.0/28"<br>         }<br>         subnet_ip_configs = {<br>            assign_ipv6_address_on_creation = true<br>            ipv6_native = true<br>         }<br>         subnet_tags = {<br>            "Department" = "IT"<br>         }<br>         subnet_dns_configs = {<br>            enable_dns64 = true<br>            private_dns_hostname_type_on_launch = "ip-name"<br>         }<br>       },<br>       {<br>           // all configs like above<br>       },<br>    ],<br>    private-subnets = [<br>      {<br>         // all configs like above for another subnet<br>      },<br>      {         // all configs like above<br>      },<br>   ]<br>}<pre> |
 
 #### NACL specific properties
 ---
@@ -177,10 +177,10 @@ Map value - An array of Subnet Maps as defined below
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
-| <a name="subnet_core_configs"></a> [subnet_core_configs](#input\_core\_configs) | Configuration map of the Core settings for the subnet. | `string` | `null` | no |
-| <a name="subnet_ip_configs"></a> [subnet_ip_configs](#input\_ip\_configs) | Configuration map of the IPv4/IPv6 settings for the subnet. | `string` | `null` | no |
-| <a name="subnet_customer_owned_ip_configs"></a> [subnet_customer_owned_ip_configs](#input\_customer\_owned\_ip\_configs) | Configuration map of the Customer Owned IP settings for the subnet. | `string` | `null` | no |
-| <a name="subnet_dns_configs"></a> [subnet_dns_configs](#input\_dns\_configs) | Configuration map of the DNS settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_core_configs"></a> [subnet_core_configs](#subnet\_core\_configs) | Configuration map of the Core settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_ip_configs"></a> [subnet_ip_configs](#subnet\_ip\_configs) | Configuration map of the IPv4/IPv6 settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_customer_owned_ip_configs"></a> [subnet_customer_owned_ip_configs](#subnet\_customer\_owned\_ip\_configs) | Configuration map of the Customer Owned IP settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_dns_configs"></a> [subnet_dns_configs](#subnet\_dns\_configs) | Configuration map of the DNS settings for the subnet. | `string` | `null` | no |
 | <a name="subnet_tags"></a> [subnet_tags](#input\_subnet\_tags) | A map of tags to assign to the subnet | `string` | `{}` | no |
 
 #### subnet_core_configs
