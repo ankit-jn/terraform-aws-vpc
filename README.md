@@ -214,6 +214,8 @@ Map value - An array of Subnet Maps as defined below
 
 #### subnet_dns_configs
 
+Property `enable_dns64` and `enable-resource-name-dns-aaaa-record-on-launch` can only be set `true` when subnet has an IPv6 CIDR block associated with it (i.e. `subnet_ip_configs.ipv6_cidr_block` has been set as well).
+
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
 | <a name="enable_dns64"></a> [enable_dns64](#input\_enable_dns64) | Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. | `boolean` | `false` | no |
