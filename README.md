@@ -68,6 +68,7 @@ This module features the following components to be provisioned with different c
 | <a name="dhcp_options_netbios_node_type"></a> [dhcp_options_netbios_node_type](#input\_dhcp\_options\_netbios\_node\_type) | The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
 | <a name="create_igw"></a> [create_igw](#input\_create\_igw) | Flag to set whether to create internet gateway | `boolean` | `true` | no | |
 | <a name="create_egress_only_igw"></a> [create_egress_only_igw](#input\_create\_egress\_only\_igw) | Flag to set whether to create Egress only internet gateway | `boolean` | `false` | no | |
+| <a name="subnets"></a> [subnets](#subnets) | The configuration Map of Subnets | `map` | `{}` | yes | <pre>subnets = {<br>   public-subnets = [<br>      {<br>         subnet_core_configs = {<br>            name = "snet-1"<br>            cidr_block = "10.1.0.0/28"<br>         }<br>         subnet_ip_configs = {<br>            assign_ipv6_address_on_creation = true<br>            ipv6_native = true<br>         }<br>         subnet_tags = {<br>            "Department" = "IT"<br>         }<br>         subnet_dns_configs = {<br>            enable_dns64 = true<br>            private_dns_hostname_type_on_launch = "ip-name"<br>         }<br>       },<br>       {<br>           // all configs like above<br>       },<br>    ],<br>    private-subnets = [<br>      {<br>         // all configs like above for another subnet<br>      },<br>      {         // all configs like above<br>      },<br>   ]<br>}<pre> |
 
 #### NACL specific properties
 ---
@@ -167,6 +168,54 @@ Map Values - A map of CIDR configurations with the following properties:
 | <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | The IPv4 CIDR block for the VPC. | `string` | `null` | no |
 | <a name="ipam_pool_id"></a> [ipam_pool_id](#input\_ipam\_pool\_id) | The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR. | `string` | `null` | no |
 | <a name="netmask_length"></a> [enable_classiclink](#input\_netmask\_length) | The netmask length of the IPv4 CIDR you want to allocate to this VPC. | `number` | `null` | no |
+
+#### subnets
+
+Subnets are managed as a map of 5 different type of subnets where<br>
+Map Key - Subnet Type [There could be 5 Subnet Types : `public-subnets` `private-subnets` `outpost-subnets` `application-subnets` `db-subnets']<br>
+Map value - An array of Subnet Maps as defined below 
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="subnet_core_configs"></a> [subnet_core_configs](#subnet\_core\_configs) | Configuration map of the Core settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_ip_configs"></a> [subnet_ip_configs](#subnet\_ip\_configs) | Configuration map of the IPv4/IPv6 settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_customer_owned_ip_configs"></a> [subnet_customer_owned_ip_configs](#subnet\_customer\_owned\_ip\_configs) | Configuration map of the Customer Owned IP settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_dns_configs"></a> [subnet_dns_configs](#subnet\_dns\_configs) | Configuration map of the DNS settings for the subnet. | `string` | `null` | no |
+| <a name="subnet_tags"></a> [subnet_tags](#input\_subnet\_tags) | A map of tags to assign to the subnet | `string` | `{}` | no |
+
+#### subnet_core_configs
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="name"></a> [name](#input\_name) | The name of the subnet. | `string` |  | yes |
+| <a name="availability_zone"></a> [availability_zone](#input\_availability\_zone) | AZ for the subnet | `string` | `null` | no |
+
+#### subnet_ip_configs
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="cidr_block"></a> [subnet_core_configs](#input\_cidr_block) | The IPv4 CIDR block for the subnet. | `string` | `null` | no |
+| <a name="assign_ipv6_address_on_creation"></a> [subnet_core_configs](#input\_assign_ipv6_address_on_creation) | Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. | `boolean` | `false` | no |
+| <a name="ipv6_cidr_block"></a> [subnet_core_configs](#input\_ipv6_cidr_block) | The IPv6 network range for the subnet, in CIDR notation. | `string` | `null` | no |
+| <a name="ipv6_native"></a> [subnet_core_configs](#input\_ipv6_native) | Indicates whether to create an IPv6-only subnet. | `boolean` | `false` | no |
+| <a name="map_public_ip_on_launch"></a> [map_public_ip_on_launch](#input\_map_public_ip_on_launch) | Specify true to indicate that instances launched into the subnet should be assigned a public IP address. | `boolean` | `false` | no |
+
+#### subnet_customer_owned_ip_configs
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="map_customer_owned_ip_on_launch"></a> [map_customer_owned_ip_on_launch](#subnet\_map\_customer\_owned\_ip\_on\_launch) | Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address. | `boolean` | `false` | no |
+| <a name="customer_owned_ipv4_pool"></a> [customer_owned_ipv4_pool](#subnet\_customer\_owned\_ipv4\_pool) | The customer owned IPv4 address pool. | `boolean` | `false` | no |
+| <a name="vpc_dns_host_name"></a> [vpc_dns_host_name](#subnet\_vpc\_dns\_host\_name) | The Amazon Resource Name (ARN) of the Outpost. | `string` | `null` | no |
+
+#### subnet_dns_configs
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="enable_dns64"></a> [enable_dns64](#input\_enable_dns64) | Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. | `boolean` | `false` | no |
+| <a name="enable_resource_name_dns_a_record_on_launch"></a> [enable_resource_name_dns_a_record_on_launch](#input\_enable\_resource\_name\_dns\_a\_record\_on\_launch) | Indicates whether to respond to DNS queries for instance hostnames with DNS A records. | `boolean` | `false` | no |
+| <a name="enable_resource_name_dns_aaaa_record_on_launch"></a> [enable_resource_name_dns_aaaa_record_on_launch](#input\_enable\_resource\_name\_dns\_aaaa\_record\_on\_launch) | Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records. | `boolean` | `false` | no |
+| <a name="private_dns_hostname_type_on_launch"></a> [private_dns_hostname_type_on_launch](#input\_private\_dns\_hostname\_type\_on\_launch) | The type of hostnames to assign to instances in the subnet at launch. | `string` | `null` | no |
 
 #### nacl_rules
 
