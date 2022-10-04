@@ -6,7 +6,7 @@ variable "vpc_name" {
 variable "ipv4_cidr_block" {
     description = "(Optional) The IPv4 CIDR block for the VPC."
     type = string
-    default = null
+    default = "0.0.0.0/0"
 }
 
 variable "enable_ipv6" {

@@ -50,10 +50,10 @@ This module features the following components to be provisioned with different c
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="vpc_name"></a> [vpc_name](#input\_vpc\_name) | The name of the VPC. | `string` | `{}` | yes | |
-| <a name="ipv4_cidr_block"></a> [ipv4_cidr_block](#input\_ipv4\_cidr\_block) | The IPv4 CIDR block for the VPC. | `string` | `{}` | no | |
-| <a name="enable_ipv6"></a> [enable_ipv6](#input\_enable\_ipv6) | Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. | `bool` | `{}` | no | |
-| <a name="ipv6_cidr_block"></a> [ipv6_cidr_block](#input\_ipv6\_cidr\_block) | IPv6 CIDR block to request from an IPAM Pool. | `string` | `{}` | no | |
+| <a name="vpc_name"></a> [vpc_name](#input\_vpc\_name) | The name of the VPC. | `string` |  | yes | |
+| <a name="ipv4_cidr_block"></a> [ipv4_cidr_block](#input\_ipv4\_cidr\_block) | The IPv4 CIDR block for the VPC. | `string` | `0.0.0.0/0` | no | |
+| <a name="enable_ipv6"></a> [enable_ipv6](#input\_enable\_ipv6) | Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. | `bool` | `false` | no | |
+| <a name="ipv6_cidr_block"></a> [ipv6_cidr_block](#input\_ipv6\_cidr\_block) | IPv6 CIDR block to request from an IPAM Pool. | `string` | `null` | no | |
 | <a name="vpc_base_configs"></a> [vpc_base_configs](#vpc\_base\_configs) | Basic Configuration Map for VPC | `map` | `{}` | no | <pre>vpc_base_configs = {<br>     "enable_ipv6"         = true<br>     "instance_tenancy"    = "default"<br>     "enable_dhcp_options" = false<br>}<pre>|
 | <a name="vpc_ipam_configs"></a> [vpc_ipam_configs](#vpc\_ipam\_configs) | Configuration Map for IPAM | `map` |  | no | <pre>vpc_ipam_configs = {<br>     "use_ipv4_ipam_pool"  = "10.0.0.0/16"<br>     "ipv4_ipam_pool_id"   = "ipam-xxxx"<br>     "ipv4_netmask_length" = 28><br>}<pre>|
 | <a name="vpc_dns_configs"></a> [vpc_dns_configs](#enable\_vpc\_dns\_configs) | Configuration Map for DNS Support | `map` | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> | no | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> |
