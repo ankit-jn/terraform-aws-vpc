@@ -48,7 +48,7 @@ This module features the following components to be provisioned with different c
 
 ## Inputs
 
-VPC specific properties
+#### VPC specific properties
 ---
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
@@ -69,7 +69,7 @@ VPC specific properties
 | <a name="create_igw"></a> [create_igw](#input\_create\_igw) | Flag to set whether to create internet gateway | `boolean` | `true` | no | |
 | <a name="create_egress_only_igw"></a> [create_egress_only_igw](#input\_create\_egress\_only\_igw) | Flag to set whether to create Egress only internet gateway | `boolean` | `false` | no | |
 
-NACL specific properties
+#### NACL specific properties
 ---
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
@@ -83,8 +83,18 @@ NACL specific properties
 | <a name="application_nacl_rules"></a> [public_nacl_rules](#nacl\_rules) | Configuration map of Rules for Application Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
 | <a name="dedicated_db_network_acl"></a> [dedicated_db_network_acl](#input\_dedicated\_db\_network\_acl) | Set true if dedicated network ACL is required for Database subnets. | `boolean` | `false` | no |  |
 
+#### NAT Gateways specific properties
+---
+- The property`nat_gateways` is used to define which public subnet is to be used to provisioned NAT gateway in.
+- Purpose of the property `nat_gateway_routes` is that there cold be dedicated route table for subnets i.e. route table for private subnets could be different from the route table for application subnets so which NAT Gateway is to be used as target for the routes in these route table
+    - If only single Nat Gateway is provisioned then by default the same will be picked up automatically, hence this property would be skipped
 
-TAG Specific properties
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
+| <a name="nat_gateways"></a> [nat_gateways](#input\_nat\_gateways) | The configuration map of Nat Gateways.<br>Each key will be unique identifier for the Nat Gateway<br> Value will be the subnet name where NAT gateway will be provisioned | `map` | `{}` | no | <pre>nat_gateways = {<br>   "nat-1" = "\<subnet-name\>"<br>   "nat-2" = "\<subnet-name\>"<br>}<pre> |
+| <a name="nat_gateway_routes"></a> [nat_gateway_routes](#input\_nat\_gateway\_routes) | The configuration map for associating NAT Gateways in Route tables.<br> There could be 4 keys: <br> - `private-subnets` <br> - `outpost-subnets` <br> - `application-subnets` <br> - `db-subnets` | `map` | `{}` | no | <pre>nat_gateway_routes = {<br>   "private-subnets" = "nat-1"<br>   "db-subnets" = "nat-2"<br>}<pre> |
+
+#### TAG Specific properties
 ---
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
@@ -96,7 +106,7 @@ TAG Specific properties
 | <a name="network_acl_default_tags"></a> [network_acl_default_tags](#input\_vpc\_network\_acl\_default\_tags) | A map of tags to assign to all the Network ACLs. | `map` | `{}` | no | |
 | <a name="nat_gateway_tags"></a> [nat_gateway_tags](#input\_vpc\_nat\_gateway\_tags) | A map of tags to assign to all the NAT Gateways. | `map` | `{}` | no | |
 
-Default resource specific properties
+#### Default resource specific properties
 ---
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
@@ -108,7 +118,7 @@ Default resource specific properties
 
 ## Nested Configuration Maps:  
 
-## vpc_base_configs
+#### vpc_base_configs
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
@@ -116,7 +126,7 @@ Default resource specific properties
 | <a name="enable_dhcp_options"></a> [enable_dhcp_options](#input\_enable\_dhcp\_options) | Set it to true if you want to specify a DHCP options set | `boolean` | `false` | no |
 | <a name="ipv6_cidr_block_network_border_group"></a> [ipv6_cidr_block_network_border_group](#input\_ipv6\_cidr\_block\_network\_border\_group) | By default when an IPv6 CIDR is assigned to a VPC a default ipv6_cidr_block_network_border_group will be set to the region of the VPC. | `number` | `null` | no |
 
-## vpc_ipam_configs
+#### vpc_ipam_configs
 
 Either set the value of property [`ipv4_cidr_block`] to explicitly set CIDR block for VPC or Set the ipam specific properties [`ipv4_ipam_pool_id` and `ipv4_netmask_length`] for deriving CIDR from IPAM 
 
@@ -132,21 +142,21 @@ ipv6 specific properties are only required where enable_ipv6 is set true
 | <a name="ipv6_netmask_length"></a> [ipv6_netmask_length](#input\_ipv6\_netmask\_length) | The netmask length of the IPv4 CIDR you want to allocate to this VPC. | `number` | `null` | no |
 
 
-## vpc_dns_configs
+#### vpc_dns_configs
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
 | <a name="enable_dns_support"></a> [enable_dns_support](#input\_enable\_dns\_support) | A boolean flag to enable/disable DNS support in the VPC. | `boolean` | `true` | no |
 | <a name="vpc_dns_host_name"></a> [vpc_dns_host_name](#input\_vpc\_dns\_host\_name) | A boolean flag to enable/disable DNS hostnames in the VPC. | `boolean` | `false` | no |
 
-## vpc_classiclink_configs
+#### vpc_classiclink_configs
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
 | <a name="enable_classiclink"></a> [enable_classiclink](#input\_enable\_classiclink) | A boolean flag to enable/disable ClassicLink for the VPC. | `boolean` | `false` | no |
 | <a name="enable_classiclink_dns_support"></a> [enable_classiclink_dns_support](#input\_enable\_classiclink\_dns\_support) | A boolean flag to enable/disable ClassicLink DNS Support for the VPC. | `boolean` | `false` | no |
 
-## vpc_secondary_cidr_blocks
+#### vpc_secondary_cidr_blocks
 
 Each entry of this Map will be a Map again for Secondary CIDR configuration (Either set CIDR block explicitly or define IPAM Pool ID) where,
 Map Key - Any unique string identifier
@@ -158,7 +168,27 @@ Map Values - A map of CIDR configurations with the following properties:
 | <a name="ipam_pool_id"></a> [ipam_pool_id](#input\_ipam\_pool\_id) | The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR. | `string` | `null` | no |
 | <a name="netmask_length"></a> [enable_classiclink](#input\_netmask\_length) | The netmask length of the IPv4 CIDR you want to allocate to this VPC. | `number` | `null` | no |
 
-## default_route_table_routes
+#### nacl_rules
+
+NACL rules are managed as a map of 2 different rule types where<br>
+Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
+Map Value - An array of Rule Maps as defined below<br><br>
+
+Each this block should be defined as an entry of the list managed under Map key - either `inbound` or `outbound`<br>
+
+One of `cidr_block` and `ipv6_cidr_block` is mandatory
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="rule_no"></a> [rule_no](#input\_rule\_no) | Rule Number | `number` |  | yes |
+| <a name="action"></a> [action](#input\_action) | Rule Action [allow/deny]. | `string` |  | yes |
+| <a name="from_port"></a> [from_port](#input\_from\_port) | Traffic from port | `string` |  | yes |
+| <a name="to_port"></a> [to_port](#input\_to\_port) | Traffic to port | `string` |  | yes |
+| <a name="protocol"></a> [protocol](#input\_protocol) | Protocol Name | `string` |  | yes |
+| <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | IPv4 CIDR block. | `string` | `null` | no |
+| <a name="ipv6_cidr_block"></a> [nat_gateway_id](#input\_ipv6\_cidr\_block) | IPv6 CIDR block | `string` | `null` | no |
+
+#### default_route_table_routes
 
 Each entry of this List will be a Map again with the following entries.
 
@@ -179,27 +209,7 @@ Target - One of the following keys [`core_network_arn`, `egress_only_gateway_id`
 | <a name="vpc_endpoint_id"></a> [vpc_endpoint_id](#input\_vpc\_endpoint\_id) | Identifier of a VPC Endpoint. | `string` | `null` | no |
 | <a name="vpc_peering_connection_id"></a> [vpc_peering_connection_id](#input\_vpc\_peering\_connection\_id) | Identifier of a VPC peering connection. | `string` | `null` | no |
 
-## nacl_rules
-
-NACL rules are managed as a map of 2 different rule types where<br>
-Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
-Map Value - An array of Rule Maps as defined below<br><br>
-
-Each this block should be defined as an entry of the list managed under Map key - either `inbound` or `outbound`<br>
-
-One of `cidr_block` and `ipv6_cidr_block` is mandatory
-
-| Name | Description | Type | Default | Required |
-|:------|:------|:------|:------|:------:|
-| <a name="rule_no"></a> [rule_no](#input\_rule\_no) | Rule Number | `number` |  | yes |
-| <a name="action"></a> [action](#input\_action) | Rule Action [allow/deny]. | `string` |  | yes |
-| <a name="from_port"></a> [from_port](#input\_from\_port) | Traffic from port | `string` |  | yes |
-| <a name="to_port"></a> [to_port](#input\_to\_port) | Traffic to port | `string` |  | yes |
-| <a name="protocol"></a> [protocol](#input\_protocol) | Protocol Name | `string` |  | yes |
-| <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | IPv4 CIDR block. | `string` | `null` | no |
-| <a name="ipv6_cidr_block"></a> [nat_gateway_id](#input\_ipv6\_cidr\_block) | IPv6 CIDR block | `string` | `null` | no |
-
-## sg_rules
+#### sg_rules
 
 SG rules are managed as a map of 3 different rule types where<br>
 Map key - Rule Type [There could be 2 Rule Types : `ingress-cidr`, `ingress-self`, `egress`]<br>
