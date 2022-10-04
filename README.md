@@ -280,6 +280,30 @@ Map Value - An array of Rule Maps as defined below<br><br>
 | Name | Type | Description |
 |:------|:------|:------|
 | <a name="vpc_config"></a> [vpc_config](#output\_vpc\_config) | `map` | The VPC Details:<br> `id` - The ID of VPC<br> `arn` - Amazon Resource Name (ARN) of VPC<br> `owner_id` - The ID of the AWS account that owns the VPC.<br> `cidr_block`- IPv4 CIDR block<br> `ipv6_cidr_block`- IPv6 CIDR block<br> `instance_tenancy` - Tenancy of instances spin up within VPC |
+| <a name="vpc_default_route_table_id"></a> [vpc_default_route_table_id](#output\_vpc\_default\_route\_table\_id) | `string` | The ID of the route table created by default on VPC creation |
+| <a name="vpc_main_route_table_id"></a> [vpc_main_route_table_id](#output\_vpc\_main\_route\_table\_id) | `string` | The ID of the main route table associated with this VPC. |
+| <a name="vpc_default_network_acl_id"></a> [vpc_default_network_acl_id](#output\_vpc\_default\_network\_acl\_id) | `string` | The ID of the network ACL created by default on VPC creation |
+| <a name="vpc_default_security_group_id"></a> [vpc_default_security_group_id](#output\_vpc\_default\_security\_group\_id) | `string` | The ID of the security group created by default on VPC creation |
+| <a name="vpc_dhcp_options_id"></a> [vpc_dhcp_options_id](#output\_vpc\_dhcp\_options\_id) | `string` | The ID if DHCP Option |
+| <a name="vpc_enable_classiclink"></a> [vpc_enable_classiclink](#output\_vpc\_enable\_classiclink) | `boolean` | Whether or not the VPC has Classiclink enabled |
+| <a name="vpc_enable_classiclink_dns_support"></a> [vpc_enable_classiclink_dns_support](#output\_vpc\_enable\_classiclink\_dns\_support) | `boolean` | Whether or not the VPC has Classiclink DNS support |
+| <a name="vpc_enable_dns_support"></a> [vpc_enable_dns_support](#output\_vpc\_enable\_dns\_support) | `boolean` | Whether or not the VPC has DNS support |
+| <a name="vpc_enable_dns_hostnames"></a> [vpc_enable_dns_hostnames](#output\_vpc\_enable\_dns\_hostnames) | `boolean` | Whether or not the VPC has DNS hostname support |
+| <a name="vpc_ipv6_association_id"></a> [vpc_ipv6_association_id](#output\_vpc\_ipv6\_association\_id) | `string` | The association ID for the IPv6 CIDR block. |
+| <a name="vpc_igw"></a> [vpc_igw](#output\_vpc\_igw) | `map` | The details of the Internet Gateway:<br> `id` - The ID of IGW<br> `arn` - Amazon Resource Name (ARN) of IGW<br> `availability_zone` - The ID of the AWS account that owns the IGW. |
+| <a name="vpc_egress_igw_id"></a> [vpc_egress_igw_id](#output\_vpc\_egress\_igw\_id) | `string` | The ID of the egress-only Internet gateway. |
+| <a name="public_subnets"></a> [public_subnets](#output\_public\_subnets) | `map` | The configuration of all Public subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned.|
+| <a name="private_subnets"></a> [private_subnets](#output\_private\_subnets) | `map` | The configuration of all Private subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
+| <a name="outpost_subnets"></a> [outpost_subnets](#output\_outpost\_subnets) | `map` | The configuration of all Outpost subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
+| <a name="application_subnets"></a> [application_subnets](#output\_application\_subnets) | `map` | The configuration of all Application subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
+| <a name="db_subnets"></a> [db_subnets](#output\_db\_subnets) | `string` | The configuration of all Database subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
+| <a name="public_route_table_id"></a> [public_route_table_id](#output\_public\_route\_table\_id) | `string` | ID of Public route table |
+| <a name="private_route_table_id"></a> [private_route_table_id](#output\_private\_route\_table\_id) | `string` | ID of Private route table |
+| <a name="outpost_route_table_id"></a> [outpost_route_table_id](#output\_outpost\_route\_table\_id) | `string` | ID of Outpost route table |
+| <a name="application_route_table_id"></a> [vpc_config](#output\_application\_route\_table\_id) | `string` | ID of Application route table |
+| <a name="db_route_table_id"></a> [db_route_table_id](#output\_db\_route\_table\_id) | `map` | ID of Database route table |
+| <a name="vpc_ipv6_cidr_block_network_border_group"></a> [vpc_ipv6_cidr_block_network_border_group](#output\_vpc\_ipv6\_cidr\_block\_network\_border\_group) | `string` | The Network Border Group Zone name |
+| <a name="vpc_tags_all"></a> [vpc_tags_all](#output\_vpc\_tags\_all) | `map` | All tags associated to VPC |
 
 ## Authors
 
