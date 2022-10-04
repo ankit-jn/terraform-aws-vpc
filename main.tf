@@ -69,6 +69,11 @@ module "public_subnets" {
     vpc_id = aws_vpc.this.id
     subnets = local.public_subnets
     default_tags = merge(var.default_tags, var.subnet_default_tags)
+
+    depends_on = [
+        aws_vpc.this,
+        aws_vpc_ipv4_cidr_block_association.this
+    ]
 }
 
 # Private Subnets
@@ -78,6 +83,11 @@ module "private_subnets" {
     vpc_id = aws_vpc.this.id
     subnets = local.private_subnets
     default_tags = merge(var.default_tags, var.subnet_default_tags)
+
+    depends_on = [
+        aws_vpc.this,
+        aws_vpc_ipv4_cidr_block_association.this
+    ]
 }
 
 # Outpost Subnets
@@ -87,6 +97,11 @@ module "outpost_subnets" {
     vpc_id = aws_vpc.this.id
     subnets = local.outpost_subnets
     default_tags = merge(var.default_tags, var.subnet_default_tags)
+
+    depends_on = [
+        aws_vpc.this,
+        aws_vpc_ipv4_cidr_block_association.this
+    ]
 }
 
 # application Subnets
@@ -96,6 +111,11 @@ module "application_subnets" {
     vpc_id = aws_vpc.this.id
     subnets = local.application_subnets
     default_tags = merge(var.default_tags, var.subnet_default_tags)
+
+    depends_on = [
+        aws_vpc.this,
+        aws_vpc_ipv4_cidr_block_association.this
+    ]
 }
 
 # db Subnets
@@ -105,6 +125,11 @@ module "db_subnets" {
     vpc_id = aws_vpc.this.id
     subnets = local.db_subnets
     default_tags = merge(var.default_tags, var.subnet_default_tags)
+
+    depends_on = [
+        aws_vpc.this,
+        aws_vpc_ipv4_cidr_block_association.this
+    ]
 }
 ###################################################################
 ## Nat Gateway
