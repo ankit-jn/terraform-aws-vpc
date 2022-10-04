@@ -59,13 +59,19 @@ This module features the following components to be provisioned with different c
 | <a name="vpc_dns_configs"></a> [vpc_dns_configs](#enable\_vpc\_dns\_configs) | Configuration Map for DNS Support | `map` | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> | no | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> |
 | <a name="vpc_classiclink_configs"></a> [vpc_classiclink_configs](#vpc\_classiclink\_configs) | Configuration Map for CLassic Link | `map` | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> | no | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> |
 | <a name="vpc_secondary_cidr_blocks"></a> [vpc_secondary_cidr_blocks](#vpc\_secondary\_cidr\_blocks) | Configuration Map for Secondary CIDR blocks  | `map` | `{}` | no | <pre>vpc_secondary_cidr_blocks = {<br>     "CIDR-1"   = {<br>           cidr_block = "x.x.x.x/xx<br>     }<br>}<pre> |
-| <a name="default_tags"></a> [default_tags](#vpc\_default\_tags) | A map of tags to assign to all the resource. | `map` | `{}` | no | |
-| <a name="vpc_tags"></a> [vpc_tags](#vpc\_vpc\_tags) | A map of tags to assign to the VPC. | `map` | `{}` | no | |
-| <a name="igw_tags"></a> [igw_tags](#vpc\_igw\_tags) | A map of tags to assign to IGW. | `map` | `{}` | no | |
-| <a name="rt_default_tags"></a> [rt_default_tags](#vpc\_rt\_default\_tags) | A map of tags to assign to the route Tables. | `map` | `{}` | no | |
-| <a name="subnet_default_tags"></a> [subnet_default_tags](#vpc\_subnet\_default\_tags) | A map of tags to assign to all the subnets. | `map` | `{}` | no | |
-| <a name="network_acl_default_tags"></a> [network_acl_default_tags](#vpc\_network\_acl\_default\_tags) | A map of tags to assign to all the Network ACLs. | `map` | `{}` | no | |
-| <a name="nat_gateway_tags"></a> [nat_gateway_tags](#vpc\_nat\_gateway\_tags) | A map of tags to assign to all the NAT Gateways. | `map` | `{}` | no | |
+| <a name="dhcp_options_domain_name"></a> [dhcp_options_domain_name](#input\_dhcp\_options\_domain\_name) | the suffix domain name to use by default when resolving non Fully Qualified Domain Names. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
+| <a name="dhcp_options_domain_name_servers"></a> [dhcp_options_domain_name_servers](#input\_dhcp\_options\_domain\_name\_servers) | List of name servers to configure in /etc/resolv.conf. This will require enable_dhcp_options set to true. | `string` | `["AmazonProvidedDNS"]` | no | |
+| <a name="dhcp_options_ntp_servers"></a> [dhcp_options_ntp_servers](#input\_dhcp\_options\_ntp\_servers) | List of NTP servers to configure. This will require enable_dhcp_options set to true. | `list(string)` | `[]` | no | |
+| <a name="dhcp_options_netbios_name_servers"></a> [dhcp_options_netbios_name_servers](#input\_dhcp\_options\_netbios\_name\_servers) | List of NETBIOS name servers. This will require enable_dhcp_options set to true. | `list(string)` | `[]` | no | |
+| <a name="dhcp_options_netbios_node_type"></a> [dhcp_options_netbios_node_type](#input\_dhcp\_options\_netbios\_node\_type) | The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
+| <a name="default_route_table_propagating_vgws"></a> [default_route_table_propagating_vgws](#input\_default\_route\_table\_propagating\_vgws) | List of virtual gateways for propagation. | `list(string)` | `[]` | no | |
+| <a name="default_tags"></a> [default_tags](#input\_vpc\_default\_tags) | A map of tags to assign to all the resource. | `map` | `{}` | no | |
+| <a name="vpc_tags"></a> [vpc_tags](#input\_vpc\_vpc\_tags) | A map of tags to assign to the VPC. | `map` | `{}` | no | |
+| <a name="igw_tags"></a> [igw_tags](#input\_vpc\_igw\_tags) | A map of tags to assign to IGW. | `map` | `{}` | no | |
+| <a name="rt_default_tags"></a> [rt_default_tags](#input\_vpc\_rt\_default\_tags) | A map of tags to assign to the route Tables. | `map` | `{}` | no | |
+| <a name="subnet_default_tags"></a> [subnet_default_tags](#input\_vpc\_subnet\_default\_tags) | A map of tags to assign to all the subnets. | `map` | `{}` | no | |
+| <a name="network_acl_default_tags"></a> [network_acl_default_tags](#input\_vpc\_network\_acl\_default\_tags) | A map of tags to assign to all the Network ACLs. | `map` | `{}` | no | |
+| <a name="nat_gateway_tags"></a> [nat_gateway_tags](#input\_vpc\_nat\_gateway\_tags) | A map of tags to assign to all the NAT Gateways. | `map` | `{}` | no | |
 
 
 ## Nested Configuration Maps:  
