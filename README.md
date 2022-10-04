@@ -174,7 +174,7 @@ One of `cidr_block` and `ipv6_cidr_block` is mandatory
 | <a name="rule_no"></a> [rule_no](#input\_rule\_no) | Rule Number | `number` |  | yes |
 | <a name="action"></a> [action](#input\_action) | Rule Action [allow/deny]. | `string` |  | yes |
 | <a name="from_port"></a> [from_port](#input\_from\_port) | Traffic from port | `string` |  | yes |
-| <a name="to_port"></a> [to_port](#input\_to\_port) | Traffic to port | `string` | `null` | yes |
+| <a name="to_port"></a> [to_port](#input\_to\_port) | Traffic to port | `string` |  | yes |
 | <a name="protocol"></a> [protocol](#input\_protocol) | Protocol Name | `string` |  | yes |
 | <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | IPv4 CIDR block. | `string` | `null` | no |
 | <a name="ipv6_cidr_block"></a> [nat_gateway_id](#input\_ipv6\_cidr\_block) | IPv6 CIDR block | `string` | `null` | no |

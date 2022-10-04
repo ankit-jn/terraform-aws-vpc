@@ -27,8 +27,8 @@ locals {
     enable_classiclink_dns_support  = can(var.vpc_classiclink_configs.enable_classiclink_dns_support) ? var.vpc_classiclink_configs.enable_classiclink_dns_support : false
 
     #Default NACL Rules
-    default_nacl_ingress_rules = { for k, v in var.default_network_acl : k => v if k == "ingress" }
-    default_nacl_egress_rules = { for k, v in var.default_network_acl : k => v if k == "egress" }
+    default_nacl_inbound_rules = { for k, v in var.default_network_acl : k => v if k == "inbound" }
+    default_nacl_outbound_rules = { for k, v in var.default_network_acl : k => v if k == "outbound" }
     
     #Default Security Group Rules
     default_sg_ingress_cidr_rules = { for k, v in var.default_sg_rules : k => v if k == "ingress-cidr" }

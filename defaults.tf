@@ -52,7 +52,7 @@ resource aws_default_network_acl "this" {
   subnet_ids = null
 
   dynamic "ingress" {
-    for_each = { for rule in flatten(values(local.default_nacl_ingress_rules)) : rule.rule_no => rule }
+    for_each = { for rule in flatten(values(local.default_nacl_inbound_rules)) : rule.rule_no => rule }
     content {
       action          = ingress.value.action
       cidr_block      = lookup(ingress.value, "cidr_block", null)
@@ -66,7 +66,7 @@ resource aws_default_network_acl "this" {
     }
   }
   dynamic "egress" {
-    for_each = { for rule in flatten(values(local.default_nacl_egress_rules)) : rule.rule_no => rule }
+    for_each = { for rule in flatten(values(local.default_nacl_outbound_rules)) : rule.rule_no => rule }
     content {
       action          = egress.value.action
       cidr_block      = lookup(egress.value, "cidr_block", null)
