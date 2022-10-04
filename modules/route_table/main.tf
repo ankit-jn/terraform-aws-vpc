@@ -67,7 +67,7 @@ resource aws_route "nat_gateway_ipv6_routes" {
 }
 
 ## Route Table Association to subnet
-resource aws_route_table_association "public" {
+resource aws_route_table_association "this" {
   for_each = var.subnets
 
   subnet_id      = each.value.id
