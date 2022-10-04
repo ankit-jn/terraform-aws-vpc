@@ -84,18 +84,28 @@ output "vpc_egress_igw_id" {
 
 # Outputs for Subnets
 output "public_subnets" {
-    description = "The configuration of All public subnets"
+    description = "The configuration of all public subnets"
     value = module.public_subnets.subnets_config
 }
 
 output "private_subnets" {
-    description = "The configuration of All public subnets"
+    description = "The configuration of all private subnets"
     value = module.private_subnets.subnets_config
 }
 
 output "outpost_subnets" {
-    description = "The configuration of All public subnets"
+    description = "The configuration of all outpost subnets"
     value = module.outpost_subnets.subnets_config
+}
+
+output "application_subnets" {
+    description = "The configuration of all Application subnets"
+    value = module.application_subnets.subnets_config
+}
+
+output "db_subnets" {
+    description = "The configuration of all Database subnets"
+    value = module.db_subnets.subnets_config
 }
 
 # Outputs for Route Tables
@@ -112,4 +122,14 @@ output "private_route_table_id" {
 output "outpost_route_table_id" {
   description = "ID of outpost route table"
   value       = try(module.outpost_route_table[0].route_table_id, "")
+}
+
+output "application_route_table_id" {
+  description = "ID of application route table"
+  value       = try(module.application_route_table[0].route_table_id, "")
+}
+
+output "db_route_table_id" {
+  description = "ID of Database route table"
+  value       = try(module.db_route_table[0].route_table_id, "")
 }
