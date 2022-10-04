@@ -48,6 +48,8 @@ This module features the following components to be provisioned with different c
 
 ## Inputs
 
+VPC specific properties
+---
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="vpc_name"></a> [vpc_name](#input\_vpc\_name) | The name of the VPC. | `string` |  | yes | |
@@ -64,8 +66,13 @@ This module features the following components to be provisioned with different c
 | <a name="dhcp_options_ntp_servers"></a> [dhcp_options_ntp_servers](#input\_dhcp\_options\_ntp\_servers) | List of NTP servers to configure. This will require enable_dhcp_options set to true. | `list(string)` | `[]` | no | |
 | <a name="dhcp_options_netbios_name_servers"></a> [dhcp_options_netbios_name_servers](#input\_dhcp\_options\_netbios\_name\_servers) | List of NETBIOS name servers. This will require enable_dhcp_options set to true. | `list(string)` | `[]` | no | |
 | <a name="dhcp_options_netbios_node_type"></a> [dhcp_options_netbios_node_type](#input\_dhcp\_options\_netbios\_node\_type) | The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
-| <a name="default_route_table_propagating_vgws"></a> [default_route_table_propagating_vgws](#input\_default\_route\_table\_propagating\_vgws) | List of virtual gateways for propagation. | `list(string)` | `[]` | no | |
-| <a name="default_route_table_routes"></a> [default_route_table_routes](#default\_route\_table\_routes) | A List of Configuration map for Routes | `list(map(string))` | `[]` | no | <pre>[<br>     {   <br>        "route_key"      = "rt-1"<br>        "cidr_block"     = "xxx.xxx.xxx.xxx/xx"<br>        "nat_gateway_id" = "nat-xxxx"<br>     },<br>{   <br>        "route_key"            = "rt-2"<br>        "cidr_block"           = "yyy.yyy.yyy.yyy/yy"<br>        "network_interface_id" = "nic-xxxx"<br>     }<br>]<pre> |
+| <a name="create_igw"></a> [create_igw](#input\_create\_igw) | Flag to set whether to create internet gateway | `boolean` | `true` | no | |
+| <a name="create_egress_only_igw"></a> [create_egress_only_igw](#input\_create\_egress\_only\_igw) | Flag to set whether to create Egress only internet gateway | `boolean` | `false` | no | |
+
+NACL specific properties
+---
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
 | <a name="dedicated_public_network_acl"></a> [dedicated_public_network_acl](#input\_dedicated\_public\_network\_acl) | Set true if dedicated network ACL is required for public subnets. | `boolean` | `false` | no |  |
 | <a name="public_nacl_rules"></a> [public_nacl_rules](#nacl\_rules) | Configuration map of Rules for Public Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
 | <a name="dedicated_private_network_acl"></a> [dedicated_private_network_acl](#input\_dedicated\_private\_network\_acl) | Set true if dedicated network ACL is required for Private subnets. | `boolean` | `false` | no |  |
@@ -75,8 +82,12 @@ This module features the following components to be provisioned with different c
 | <a name="dedicated_application_network_acl"></a> [dedicated_application_network_acl](#input\_dedicated\_application\_network\_acl) | Set true if dedicated network ACL is required for Application subnets. | `boolean` | `false` | no |  |
 | <a name="application_nacl_rules"></a> [public_nacl_rules](#nacl\_rules) | Configuration map of Rules for Application Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
 | <a name="dedicated_db_network_acl"></a> [dedicated_db_network_acl](#input\_dedicated\_db\_network\_acl) | Set true if dedicated network ACL is required for Database subnets. | `boolean` | `false` | no |  |
-| <a name="db_nacl_rules"></a> [db_nacl_rules](#nacl\_rules) | Configuration map of Rules for Database Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
-| <a name="default_network_acl"></a> [default_network_acl](#nacl\_rules) | Configuration map of Rules for Default Network ACL. | `map` | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>     {<br>     rule_number = 101<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "::/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>     {<br>     rule_number = 101<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "::/0"<br>     },<br>  ]<br>}<pre> | no |  |
+
+
+TAG Specific properties
+---
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
 | <a name="default_tags"></a> [default_tags](#input\_vpc\_default\_tags) | A map of tags to assign to all the resource. | `map` | `{}` | no | |
 | <a name="vpc_tags"></a> [vpc_tags](#input\_vpc\_vpc\_tags) | A map of tags to assign to the VPC. | `map` | `{}` | no | |
 | <a name="igw_tags"></a> [igw_tags](#input\_vpc\_igw\_tags) | A map of tags to assign to IGW. | `map` | `{}` | no | |
@@ -85,6 +96,15 @@ This module features the following components to be provisioned with different c
 | <a name="network_acl_default_tags"></a> [network_acl_default_tags](#input\_vpc\_network\_acl\_default\_tags) | A map of tags to assign to all the Network ACLs. | `map` | `{}` | no | |
 | <a name="nat_gateway_tags"></a> [nat_gateway_tags](#input\_vpc\_nat\_gateway\_tags) | A map of tags to assign to all the NAT Gateways. | `map` | `{}` | no | |
 
+Default resource specific properties
+---
+| Name | Description | Type | Default | Required | Example|
+|:------|:------|:------|:------|:------:|:------|
+| <a name="db_nacl_rules"></a> [db_nacl_rules](#nacl\_rules) | Configuration map of Rules for Database Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
+| <a name="default_network_acl"></a> [default_network_acl](#nacl\_rules) | Configuration map of Rules for Default Network ACL. | `map` | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>     {<br>     rule_number = 101<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "::/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>     {<br>     rule_number = 101<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "::/0"<br>     },<br>  ]<br>}<pre> | no |  |
+| <a name="default_sg_rules"></a> [default_sg_rules](#sg\_rules) | Configuration List for Security Group Rules of Default Security Group | `list` | `[]` | no | |
+| <a name="default_route_table_propagating_vgws"></a> [default_route_table_propagating_vgws](#input\_default\_route\_table\_propagating\_vgws) | List of virtual gateways for propagation. | `list(string)` | `[]` | no | |
+| <a name="default_route_table_routes"></a> [default_route_table_routes](#default\_route\_table\_routes) | A List of Configuration map for Routes | `list(map(string))` | `[]` | no | <pre>[<br>     {   <br>        "route_key"      = "rt-1"<br>        "cidr_block"     = "xxx.xxx.xxx.xxx/xx"<br>        "nat_gateway_id" = "nat-xxxx"<br>     },<br>{   <br>        "route_key"            = "rt-2"<br>        "cidr_block"           = "yyy.yyy.yyy.yyy/yy"<br>        "network_interface_id" = "nic-xxxx"<br>     }<br>]<pre> |
 
 ## Nested Configuration Maps:  
 
@@ -165,7 +185,7 @@ NACL rules are managed as a map of 2 different rule types where<br>
 Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
 Map Value - An array of Rule Maps as defined below<br><br>
 
-Each this block should be defined as an entry of the list either inbound rule of outbound rule<br>
+Each this block should be defined as an entry of the list managed under Map key - either `inbound` or `outbound`<br>
 
 One of `cidr_block` and `ipv6_cidr_block` is mandatory
 
@@ -178,6 +198,23 @@ One of `cidr_block` and `ipv6_cidr_block` is mandatory
 | <a name="protocol"></a> [protocol](#input\_protocol) | Protocol Name | `string` |  | yes |
 | <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | IPv4 CIDR block. | `string` | `null` | no |
 | <a name="ipv6_cidr_block"></a> [nat_gateway_id](#input\_ipv6\_cidr\_block) | IPv6 CIDR block | `string` | `null` | no |
+
+## sg_rules
+
+SG rules are managed as a map of 3 different rule types where<br>
+Map key - Rule Type [There could be 2 Rule Types : `ingress-cidr`, `ingress-self`, `egress`]<br>
+Map Value - An array of Rule Maps as defined below<br><br>
+
+- Each this block should be defined as an entry of the list managed under Map key - either `ingress-cidr` or `ingress-self` or `egress`<br>
+- cidr_blocks is not required if it is `ingress-self` rule
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="rule_name"></a> [rule_name](#input\_rule\_name) | Rule name | `number` |  | yes |
+| <a name="from_port"></a> [from_port](#input\_from\_port) | Traffic from port | `number` |  | yes |
+| <a name="to_port"></a> [to_port](#input\_to\_port) | Traffic to port | `number` |  | yes |
+| <a name="protocol"></a> [protocol](#input\_protocol) | protocol name | `string` |  | yes |
+| <a name="cidr_blocks"></a> [cidr_blocks](#input\_cidr\_blocks) | Rule Number | `string` |  | no |
 
 ## Authors
 
