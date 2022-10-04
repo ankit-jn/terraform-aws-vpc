@@ -65,6 +65,7 @@ This module features the following components to be provisioned with different c
 | <a name="dhcp_options_netbios_name_servers"></a> [dhcp_options_netbios_name_servers](#input\_dhcp\_options\_netbios\_name\_servers) | List of NETBIOS name servers. This will require enable_dhcp_options set to true. | `list(string)` | `[]` | no | |
 | <a name="dhcp_options_netbios_node_type"></a> [dhcp_options_netbios_node_type](#input\_dhcp\_options\_netbios\_node\_type) | The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
 | <a name="default_route_table_propagating_vgws"></a> [default_route_table_propagating_vgws](#input\_default\_route\_table\_propagating\_vgws) | List of virtual gateways for propagation. | `list(string)` | `[]` | no | |
+| <a name="default_route_table_routes"></a> [default_route_table_routes](#default\_route\_table\_routes) | A List of Configuration map for Routes | `list(map(string))` | `[]` | no | <pre>[<br>     {   <br>        "route_key"      = "rt-1"<br>        "cidr_block"     = "xxx.xxx.xxx.xxx/xx"<br>        "nat_gateway_id" = "nat-xxxx"<br>     },<br>{   <br>        "route_key"            = "rt-2"<br>        "cidr_block"           = "yyy.yyy.yyy.yyy/yy"<br>        "network_interface_id" = "nic-xxxx"<br>     }<br>]<pre> |
 | <a name="default_tags"></a> [default_tags](#input\_vpc\_default\_tags) | A map of tags to assign to all the resource. | `map` | `{}` | no | |
 | <a name="vpc_tags"></a> [vpc_tags](#input\_vpc\_vpc\_tags) | A map of tags to assign to the VPC. | `map` | `{}` | no | |
 | <a name="igw_tags"></a> [igw_tags](#input\_vpc\_igw\_tags) | A map of tags to assign to IGW. | `map` | `{}` | no | |
@@ -125,6 +126,28 @@ Map Values - A map of CIDR configurations with the following properties:
 | <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | The IPv4 CIDR block for the VPC. | `string` | `null` | no |
 | <a name="ipam_pool_id"></a> [ipam_pool_id](#input\_ipam\_pool\_id) | The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR. | `string` | `null` | no |
 | <a name="netmask_length"></a> [enable_classiclink](#input\_netmask\_length) | The netmask length of the IPv4 CIDR you want to allocate to this VPC. | `number` | `null` | no |
+
+## default_route_table_routes
+
+Each entry of this List will be a Map again with the following entries.
+
+Destination - One of the following keys [`cidr_block` and `ipv6_cidr_block`] is mandatory.<br>
+Target - One of the following keys [`core_network_arn`, `egress_only_gateway_id`, `gateway_id`, `instance_id`, `nat_gateway_id`, `network_interface_id`, `transit_gateway_id`, `vpc_endpoint_id`, `vpc_peering_connection_id`,] is mandatory
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | The IPv4 CIDR block of the route. | `string` | `null` | no |
+| <a name="ipv6_cidr_block"></a> [ipv6_cidr_block](#input\_ipv6\_cidr\_block) | The IPv6 CIDR block of the route. | `string` | `null` | no |
+| <a name="core_network_arn"></a> [core_network_arn](#input\_core\_network\_arn) | The Amazon Resource Name (ARN) of a core network. | `string` | `null` | no |
+| <a name="egress_only_gateway_id"></a> [egress_only_gateway_id](#input\_egress\_only\_gateway\_id) | Identifier of a VPC Egress Only Internet Gateway. | `string` | `null` | no |
+| <a name="gateway_id"></a> [gateway_id](#input\_gateway\_id) | Identifier of a VPC internet gateway or a virtual private gateway. | `string` | `null` | no |
+| <a name="instance_id"></a> [instance_id](#input\_instance\_id) | Identifier of an EC2 instance. | `string` | `null` | no |
+| <a name="nat_gateway_id"></a> [nat_gateway_id](#input\_nat\_gateway\_id) | Identifier of a VPC NAT gateway. | `string` | `null` | no |
+| <a name="network_interface_id"></a> [network_interface_id](#input\_network\_interface\_id) | Identifier of an EC2 network interface. | `string` | `null` | no |
+| <a name="transit_gateway_id"></a> [transit_gateway_id](#input\_transit\_gateway\_id) | Identifier of an EC2 Transit Gateway. | `string` | `null` | no |
+| <a name="vpc_endpoint_id"></a> [vpc_endpoint_id](#input\_vpc\_endpoint\_id) | Identifier of a VPC Endpoint. | `string` | `null` | no |
+| <a name="vpc_peering_connection_id"></a> [vpc_peering_connection_id](#input\_vpc\_peering\_connection\_id) | Identifier of a VPC peering connection. | `string` | `null` | no |
+
 
 ## Authors
 
