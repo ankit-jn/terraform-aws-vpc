@@ -67,7 +67,7 @@ output "vpc_ipv6_cidr_block_network_border_group" {
 }
 
 output "vpc_tags_all" {
-    description = ""
+    description = "All tags associated to VPC"
     value = aws_vpc.this.tags_all
 }
 
