@@ -58,6 +58,7 @@ This module features the following components to be provisioned with different c
 | <a name="vpc_ipam_configs"></a> [vpc_ipam_configs](#vpc\_ipam\_configs) | Configuration Map for IPAM | `map` |  | no | <pre>vpc_ipam_configs = {<br>     "use_ipv4_ipam_pool"  = "10.0.0.0/16"<br>     "ipv4_ipam_pool_id"   = "ipam-xxxx"<br>     "ipv4_netmask_length" = 28><br>}<pre>|
 | <a name="vpc_dns_configs"></a> [vpc_dns_configs](#enable\_vpc\_dns\_configs) | Configuration Map for DNS Support | `map` | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> | no | <pre>vpc_dns_configs = {<br>     enable_dns_support = true<br>     vpc_dns_host_name  = false<br>}<pre> |
 | <a name="vpc_classiclink_configs"></a> [vpc_classiclink_configs](#vpc\_classiclink\_configs) | Configuration Map for CLassic Link | `map` | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> | no | <pre>vpc_classiclink_configs = {<br>     enable_classiclink             = true<br>     enable_classiclink_dns_support = false<br>}<pre> |
+| <a name="vpc_secondary_cidr_blocks"></a> [vpc_secondary_cidr_blocks](#vpc\_secondary\_cidr\_blocks) | Configuration Map for Secondary CIDR blocks  | `map` | `{}` | no | <pre>vpc_secondary_cidr_blocks = {<br>     "CIDR-1"   = {<br>           cidr_block = "x.x.x.x/xx<br>     }<br>}<pre> |
 | <a name="default_tags"></a> [default_tags](#vpc\_default\_tags) | A map of tags to assign to all the resource. | `map` | `{}` | no | |
 | <a name="vpc_tags"></a> [vpc_tags](#vpc\_vpc\_tags) | A map of tags to assign to the VPC. | `map` | `{}` | no | |
 | <a name="igw_tags"></a> [igw_tags](#vpc\_igw\_tags) | A map of tags to assign to IGW. | `map` | `{}` | no | |
@@ -79,7 +80,7 @@ This module features the following components to be provisioned with different c
 
 ## vpc_ipam_configs
 
-Either set the value of property [`ipv4_cidr_block`] to explicitely set CIDR block for VPC or Set the ipam specific properties [`ipv4_ipam_pool_id` and `ipv4_netmask_length`] for deriving CIDR from IPAM 
+Either set the value of property [`ipv4_cidr_block`] to explicitly set CIDR block for VPC or Set the ipam specific properties [`ipv4_ipam_pool_id` and `ipv4_netmask_length`] for deriving CIDR from IPAM 
 
 ipv6 specific properties are only required where enable_ipv6 is set true
 
@@ -106,6 +107,18 @@ ipv6 specific properties are only required where enable_ipv6 is set true
 |:------|:------|:------|:------|:------:|
 | <a name="enable_classiclink"></a> [enable_classiclink](#input\_enable\_classiclink) | A boolean flag to enable/disable ClassicLink for the VPC. | `boolean` | `false` | no |
 | <a name="enable_classiclink_dns_support"></a> [enable_classiclink_dns_support](#input\_enable\_classiclink\_dns\_support) | A boolean flag to enable/disable ClassicLink DNS Support for the VPC. | `boolean` | `false` | no |
+
+## vpc_secondary_cidr_blocks
+
+Each entry of this Map will be a Map again for Secondary CIDR configuration (Either set CIDR block explicitly or define IPAM Pool ID) where,
+Map Key - Any unique string identifier
+Map Values - A map of CIDR configurations with the following properties:
+
+| Name | Description | Type | Default | Required |
+|:------|:------|:------|:------|:------:|
+| <a name="cidr_block"></a> [cidr_block](#input\_cidr\_block) | The IPv4 CIDR block for the VPC. | `string` | `null` | no |
+| <a name="ipam_pool_id"></a> [ipam_pool_id](#input\_ipam\_pool\_id) | The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR. | `string` | `null` | no |
+| <a name="netmask_length"></a> [enable_classiclink](#input\_netmask\_length) | The netmask length of the IPv4 CIDR you want to allocate to this VPC. | `number` | `null` | no |
 
 ## Authors
 
