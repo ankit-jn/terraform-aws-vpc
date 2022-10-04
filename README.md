@@ -275,6 +275,12 @@ Map Value - An array of Rule Maps as defined below<br><br>
 | <a name="protocol"></a> [protocol](#input\_protocol) | protocol name | `string` |  | yes |
 | <a name="cidr_blocks"></a> [cidr_blocks](#input\_cidr\_blocks) | Rule Number | `string` |  | no |
 
+## Outputs
+
+| Name | Type | Description |
+|:------|:------|:------|
+| <a name="vpc_config"></a> [vpc_config](#output\_vpc\_config) | `map` | The VPC Details:<br> `id` - The ID of VPC<br> `arn` - Amazon Resource Name (ARN) of VPC<br> `owner_id` - The ID of the AWS account that owns the VPC.<br> `cidr_block`- IPv4 CIDR block<br> `ipv6_cidr_block`- IPv6 CIDR block<br> `instance_tenancy` - Tenancy of instances spin up within VPC |
+
 ## Authors
 
 Module is maintained by [Ankit Jain](https://github.com/ankit-jn) with help from [these professional](https://github.com/arjstack/terraform-aws-vpc/graphs/contributors).
