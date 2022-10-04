@@ -218,10 +218,11 @@ variable "dedicated_public_network_acl" {
 
 variable "public_nacl_rules" {
     description = <<EOF
-(Optional) Reference Values for Rules for Public Dedicated Network ACL:"
-It is a map of Rule Pairs where,
-Key of the map is Rule Type and Value of the map would be an array of Rules Map 
-There could be 2 Rule Types [Keys] : 'inbound', 'outbound'
+Configuration Map of Rules of 2 different rule types for Public Dedicated Network ACL where
+Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
+Map Value - An array of Rule Maps
+
+Note - One of `cidr_block` and `ipv6_cidr_block` is mandatory
 EOF
     default = {
       "inbound" = [
@@ -255,10 +256,11 @@ variable "dedicated_private_network_acl" {
 
 variable "private_nacl_rules" {
     description = <<EOF
-(Optional) Reference Values for Rules for Private Dedicated Network ACL:"
-It is a map of Rule Pairs where,
-Key of the map is Rule Type and Value of the map would be an array of Rules Map 
-There could be 2 Rule Types [Keys] : 'inbound', 'outbound'
+Configuration Map of Rules of 2 different rule types for Private Dedicated Network ACL where
+Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
+Map Value - An array of Rule Maps
+
+Note - One of `cidr_block` and `ipv6_cidr_block` is mandatory
 EOF
     default = {
       "inbound" = [
@@ -292,10 +294,11 @@ variable "dedicated_outpost_network_acl" {
 
 variable "outpost_nacl_rules" {
     description = <<EOF
-(Optional) Reference Values for Rules for Outpost Dedicated Network ACL:"
-It is a map of Rule Pairs where,
-Key of the map is Rule Type and Value of the map would be an array of Rules Map 
-There could be 2 Rule Types [Keys] : 'inbound', 'outbound'
+Configuration Map of Rules of 2 different rule types for Outpost Dedicated Network ACL where
+Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
+Map Value - An array of Rule Maps
+
+Note - One of `cidr_block` and `ipv6_cidr_block` is mandatory
 EOF
     default = {
       "inbound" = [
@@ -329,10 +332,11 @@ variable "dedicated_application_network_acl" {
 
 variable "application_nacl_rules" {
     description = <<EOF
-(Optional) Reference Values for Rules for Application Dedicated Network ACL:"
-It is a map of Rule Pairs where,
-Key of the map is Rule Type and Value of the map would be an array of Rules Map 
-There could be 2 Rule Types [Keys] : 'inbound', 'outbound'
+Configuration Map of Rules of 2 different rule types for Application Dedicated Network ACL where
+Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
+Map Value - An array of Rule Maps
+
+Note - One of `cidr_block` and `ipv6_cidr_block` is mandatory
 EOF
     default = {
       "inbound" = [
@@ -366,10 +370,12 @@ variable "dedicated_db_network_acl" {
 
 variable "db_nacl_rules" {
     description = <<EOF
-(Optional) Reference Values for Rules for Database Dedicated Network ACL:"
-It is a map of Rule Pairs where,
-Key of the map is Rule Type and Value of the map would be an array of Rules Map 
-There could be 2 Rule Types [Keys] : 'inbound', 'outbound'
+Configuration Map of Rules of 2 different rule types for Database Dedicated Network ACL where
+Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
+Map Value - An array of Rule Maps
+
+Note - One of `cidr_block` and `ipv6_cidr_block` is mandatory
+
 EOF
     default = {
       "inbound" = [
@@ -396,11 +402,17 @@ EOF
 }
 
 variable "default_network_acl" {
-  description = "List of maps of egress rules to set on the Default Network ACL"
+  description = <<EOF
+Configuration Map of Rules of 2 different rule types for Default Network ACL where
+Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
+Map Value - An array of Rule Maps
+
+Note - One of `cidr_block` and `ipv6_cidr_block` is mandatory
+EOF
   type        = map
 
   default = {
-    "ingress" =  [
+    "inbound" =  [
       {
         rule_no    = 100
         action     = "allow"
@@ -418,7 +430,7 @@ variable "default_network_acl" {
         ipv6_cidr_block = "::/0"
       },
     ],
-    "egress" = [
+    "outbound" = [
       {
         rule_no    = 100
         action     = "allow"
@@ -444,7 +456,7 @@ variable "default_network_acl" {
 #########################################
 variable "default_sg_rules" {
     description = <<EOF
-(Optional) Reference Values for Security Group Rules of Default Security Group:"
+(Optional) Configuration List for Security Group Rules of Default Security Group:
 It is a map of Rule Pairs where,
 Key of the map is Rule Type and Value of the map would be an array of Security Rules Map 
 There could be 3 Rule Types [Keys] : 'ingress-cidr', 'ingress-self', 'egress'
@@ -486,13 +498,13 @@ EOF
 ## Internet Gateway and Egress Only Internet Gateway
 ####################################################
 variable "create_igw" {
-    description = "(Optional) The VPC ID to create in."
+    description = "(Optional) Flag to set whether to create internet gateway"
     type = bool
     default = true
 }
 
 variable "create_egress_only_igw" {
-    description = "(Optional) The VPC ID to create in."
+    description = "(Optional) Flag to set whether to create Egress only internet gateway"
     type = bool
     default = false
 }
