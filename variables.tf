@@ -1,57 +1,58 @@
+variable "vpc_name" {
+    description = "The name of the VPC"
+    type = string
+}
+
+variable "ipv4_cidr_block" {
+    description = "(Optional) The IPv4 CIDR block for the VPC."
+    type = string
+    default = null
+}
+
+variable "enable_ipv6" {
+    description = "(Optional) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC."
+    type = bool
+    default = false
+}
+
+variable "ipv6_cidr_block" {
+    description = "(Optional) IPv6 CIDR block to request from an IPAM Pool."
+    type = string
+    default = null
+}
+
 variable "vpc_base_configs" {
     description = <<EOF
 (Optional) Basic configuration Map for VPC with the following entries:
 
-vpc_name - (Optional) The name of the VPC; Default value - ""
-use_ipv4_ipam_pool - (Optional) Set flag true if use ipam pool for IPv4 CIDRs; Default value - false
-enable_ipv6 - (Optional) Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC; Default value - false
-use_ipv6_ipam_pool - (Optional) Set flag true if use ipam pool for IPv6 CIDRs; Default value - false
 instance_tenancy - (Optional) A tenancy option for instances launched into the VPC; Defaule value - "default"
 enable_dhcp_options - (Optional) Set it to true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type; Default value - false
+ipv6_cidr_block_network_border_group - (Optional) By default when an IPv6 CIDR is assigned to a VPC a default ipv6_cidr_block_network_border_group will be set to the region of the VPC. 
 EOF
     type = map
     default = {}
 }
 
-variable "vpc_ipv4_configs" {
+variable "vpc_ipam_configs" {
     description = <<EOF
-(Required) Configuration Map for IPv4 with the following entries:
+(Optional) Configuration Map for IPv4 with the following entries:
 
 Note - 
 Either set the value of property [ipv4_cidr_block] to explicitely set CIDR block for VPC  
 or Set the ipam specific properties [ipam_pool_id and netmask_length] for deriving CIDR from IPAM 
 
-cidr_block - (Optional) The IPv4 CIDR block for the VPC.
+use_ipv4_ipam_pool - (Optional) Set flag true if use ipam pool for IPv4 CIDRs; Default value - false
+ipv4_ipam_pool_id - (Optional) The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR.
+ipv4_netmask_length - (Optional) The netmask length of the IPv4 CIDR you want to allocate to this VPC.
 
-ipam_pool_id - (Optional) The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR.
-netmask_length - (Optional) The netmask length of the IPv4 CIDR you want to allocate to this VPC.
+Note: 
+Follwoing properties are only required when enable_ipv6 is set true
+use_ipv6_ipam_pool - (Optional) Set flag true if use ipam pool for IPv6 CIDRs; Default value - false
+ipv6_ipam_pool_id - IPAM Pool ID for a IPv6 pool.
+ipv6_netmask_length - (Optional) Netmask length to request from IPAM Pool.
 
 EOF
     type = map
-}
-
-variable "vpc_ipv6_configs" {
-    description = <<EOF
-(Optional) Configuration Map for IPv6 CIDR requested from IPAM with following entries:
-
-[Required only if vpc_base_configs.enable_ipv6 is set true and vpc_base_configs.use_ipv6_ipam_pool is set true]
-
-ipam_pool_id - IPAM Pool ID for a IPv6 pool.
-
-cidr_block - (Optional) IPv6 CIDR block to request from an IPAM Pool.
-netmask_length - (Optional) Netmask length to request from IPAM Pool.
-
-Note - 
-Either set the value of property [cidr_block] to explicitely set CIDR block for VPC  
-or Set the ipam specific property [netmask_length] for deriving CIDR from IPAM 
-EOF
-    type = map
-    default = null
-}
-
-variable "ipv6_cidr_block_network_border_group" {
-    description = "(Optional) By default when an IPv6 CIDR is assigned to a VPC a default ipv6_cidr_block_network_border_group will be set to the region of the VPC."
-    type = number
     default = null
 }
 
