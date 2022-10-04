@@ -456,7 +456,7 @@ EOF
 #########################################
 variable "default_sg_rules" {
     description = <<EOF
-(Optional) Reference Values for Security Group Rules of Default Security Group:"
+(Optional) Configuration List for Security Group Rules of Default Security Group:
 It is a map of Rule Pairs where,
 Key of the map is Rule Type and Value of the map would be an array of Security Rules Map 
 There could be 3 Rule Types [Keys] : 'ingress-cidr', 'ingress-self', 'egress'
@@ -498,7 +498,7 @@ EOF
 ## Internet Gateway and Egress Only Internet Gateway
 ####################################################
 variable "create_igw" {
-    description = "(Optional) The VPC ID to create in."
+    description = "(Optional) Flag to set whether to create internet gateway
     type = bool
     default = true
 }
