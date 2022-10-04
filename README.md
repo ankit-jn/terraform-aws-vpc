@@ -46,6 +46,10 @@ This module features the following components to be provisioned with different c
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.22.0 |
 
+## Examples
+
+Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-examples/tree/main/aws-vpc) for VPC Provisioning
+
 ## Inputs
 
 #### VPC specific properties
