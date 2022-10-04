@@ -35,7 +35,7 @@ resource aws_default_route_table "default" {
     }
 
     tags = merge(
-        {"Name" = format("%s-rt-default", local.vpc_name)}, 
+        {"Name" = format("%s-rt-default", var.vpc_name)}, 
         var.default_tags, 
         var.rt_default_tags
     )
@@ -81,7 +81,7 @@ resource aws_default_network_acl "this" {
   }
 
   tags = merge(
-    {"Name" = format("%s-nacl-default", local.vpc_name)}, 
+    {"Name" = format("%s-nacl-default", var.vpc_name)}, 
     var.default_tags
   )
   
@@ -130,7 +130,7 @@ resource aws_default_security_group "sg_default" {
   }
 
   tags = merge(
-    {"Name" = format("%s-sg-default", local.vpc_name)}, 
+    {"Name" = format("%s-sg-default", var.vpc_name)}, 
     var.default_tags
   )
 }

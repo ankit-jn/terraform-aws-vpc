@@ -3,19 +3,19 @@
 ###############################
 resource aws_vpc "this" {
     #IPv4
-    cidr_block                              = local.cidr_block
+    cidr_block                              = local.ipv4_cidr_block
     
     ipv4_ipam_pool_id                       = local.ipv4_ipam_pool_id
     ipv4_netmask_length                     = local.ipv4_netmask_length
     
     #IPv6
-    assign_generated_ipv6_cidr_block        = (local.enable_ipv6 && !local.use_ipv6_ipam_pool) ? true : null
+    assign_generated_ipv6_cidr_block        = (var.enable_ipv6 && !local.use_ipv6_ipam_pool) ? true : null
     
     ipv6_ipam_pool_id                       = local.ipv6_ipam_pool_id
     ipv6_netmask_length                     = local.ipv6_netmask_length
     ipv6_cidr_block                         = local.ipv6_cidr_block
     
-    ipv6_cidr_block_network_border_group    = var.ipv6_cidr_block_network_border_group
+    ipv6_cidr_block_network_border_group    = local.ipv6_cidr_block_network_border_group
     
     instance_tenancy                        = local.instance_tenancy
 
@@ -28,7 +28,7 @@ resource aws_vpc "this" {
     enable_classiclink_dns_support          = local.enable_classiclink_dns_support
     
     #Tags
-    tags = merge({"Name" = format("%s", local.vpc_name)}, var.default_tags, var.vpc_tags)
+    tags = merge({"Name" = format("%s", var.vpc_name)}, var.default_tags, var.vpc_tags)
 }
 
 resource aws_vpc_ipv4_cidr_block_association "this" {
@@ -55,7 +55,7 @@ module "igw" {
   create_igw = var.create_igw
   create_egress_only_igw = var.create_egress_only_igw
   
-  tags = merge({"Name" = format("%s-igw", local.vpc_name)}, var.default_tags, var.igw_tags)
+  tags = merge({"Name" = format("%s-igw", var.vpc_name)}, var.default_tags, var.igw_tags)
 }
 
 ###############################
@@ -112,7 +112,7 @@ module "db_subnets" {
 module "nat_gateways" {
     source = "./modules/nat_gateways"
 
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
     nat_gateways = var.nat_gateways
     subnets = module.public_subnets.subnets_config
     tags = merge(var.default_tags, var.nat_gateway_tags)
@@ -127,7 +127,7 @@ module "public_route_table" {
     count = (local.public_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
 
     rt_type = "public"
     subnets = module.public_subnets.subnets_config
@@ -143,7 +143,7 @@ module "private_route_table" {
     count = (local.private_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
 
     rt_type = "private"
     subnets = module.private_subnets.subnets_config
@@ -158,7 +158,7 @@ module "outpost_route_table" {
     count = (local.outpost_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
 
     rt_type = "private"
     subnets = module.outpost_subnets.subnets_config
@@ -173,7 +173,7 @@ module "application_route_table" {
     count = (local.application_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
 
     rt_type = "application"
     subnets = module.application_subnets.subnets_config
@@ -188,7 +188,7 @@ module "db_route_table" {
     count = (local.db_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
 
     rt_type = "database"
     subnets = module.db_subnets.subnets_config
@@ -208,7 +208,7 @@ module "public_network_acl" {
     count = (var.dedicated_public_network_acl && (local.public_subnets_count > 0)) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
     
     subnet_id = values(module.public_subnets.subnets_config)[*].id
 
@@ -224,7 +224,7 @@ module "private_network_acl" {
     count = (var.dedicated_private_network_acl && (local.private_subnets_count > 0)) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
     
     subnet_id = values(module.private_subnets.subnets_config)[*].id
 
@@ -240,7 +240,7 @@ module "outpost_network_acl" {
     count = (var.dedicated_outpost_network_acl && (local.outpost_subnets_count > 0)) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
     
     subnet_id = values(module.outpost_subnets.subnets_config)[*].id
 
@@ -256,7 +256,7 @@ module "application_network_acl" {
     count = (var.dedicated_application_network_acl && (local.application_subnets_count > 0)) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
     
     subnet_id = values(module.application_subnets.subnets_config)[*].id
 
@@ -272,7 +272,7 @@ module "db_network_acl" {
     count = (var.dedicated_db_network_acl && (local.db_subnets_count > 0)) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
-    vpc_name = local.vpc_name
+    vpc_name = var.vpc_name
     
     subnet_id = values(module.db_subnets.subnets_config)[*].id
 
