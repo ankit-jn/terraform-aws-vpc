@@ -51,11 +51,12 @@ module "igw" {
   count = (var.create_igw || var.create_egress_only_igw) ? 1 : 0
 
   vpc_id = aws_vpc.this.id
+  vpc_name = var.vpc_name
 
   create_igw = var.create_igw
   create_egress_only_igw = var.create_egress_only_igw
   
-  tags = merge({"Name" = format("%s-igw", var.vpc_name)}, var.default_tags, var.igw_tags)
+  tags = merge(var.default_tags, var.igw_tags)
 }
 
 ###############################

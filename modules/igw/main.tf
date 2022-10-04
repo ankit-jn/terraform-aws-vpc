@@ -6,7 +6,7 @@ resource aws_internet_gateway "this" {
 
   vpc_id = var.vpc_id
 
-  tags = var.tags
+  tags = merge({"Name" = format("%s-igw", var.vpc_name)}, var.tags)
 }
 
 resource aws_egress_only_internet_gateway "this" {
@@ -14,5 +14,5 @@ resource aws_egress_only_internet_gateway "this" {
 
   vpc_id = var.vpc_id
 
-  tags = var.tags
+  tags = merge({"Name" = format("%s-egress-igw", var.vpc_name)}, var.tags)
 }
