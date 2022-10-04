@@ -53,7 +53,7 @@ ipv6_netmask_length - (Optional) Netmask length to request from IPAM Pool.
 
 EOF
     type = map
-    default = null
+    default = {}
 }
 
 variable "vpc_dns_configs" {
