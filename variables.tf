@@ -554,7 +554,7 @@ Each value of the map would be another map of the following key values:
 
 4.4. private_dns_hostname_type_on_launch - (Optional) The type of hostnames to assign to instances in the subnet at launch.
 
-5. subnet_tags: (Optional) A map of tags to assign to the resource."
+5. subnet_tags: (Optional) A map of tags to assign to the resource.
 
 EOF
     type = map
