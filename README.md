@@ -194,10 +194,10 @@ Map value - An array of Subnet Maps as defined below
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
-| <a name="cidr_block"></a> [subnet_core_configs](#input\_cidr_block) | The IPv4 CIDR block for the subnet. | `string` | `null` | no |
-| <a name="assign_ipv6_address_on_creation"></a> [subnet_core_configs](#input\_assign_ipv6_address_on_creation) | Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. | `boolean` | `false` | no |
-| <a name="ipv6_cidr_block"></a> [subnet_core_configs](#input\_ipv6_cidr_block) | The IPv6 network range for the subnet, in CIDR notation. | `string` | `null` | no |
-| <a name="ipv6_native"></a> [subnet_core_configs](#input\_ipv6_native) | Indicates whether to create an IPv6-only subnet. | `boolean` | `false` | no |
+| <a name="cidr_block"></a> [cidr_block](#input\_cidr_block) | The IPv4 CIDR block for the subnet. | `string` | `null` | no |
+| <a name="assign_ipv6_address_on_creation"></a> [assign_ipv6_address_on_creation](#input\_assign_ipv6_address_on_creation) | Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. | `boolean` | `false` | no |
+| <a name="ipv6_cidr_block"></a> [ipv6_cidr_block](#input\_ipv6_cidr_block) | The IPv6 network range for the subnet, in CIDR notation. | `string` | `null` | no |
+| <a name="ipv6_native"></a> [ipv6_native](#input\_ipv6_native) | Indicates whether to create an IPv6-only subnet. | `boolean` | `false` | no |
 | <a name="map_public_ip_on_launch"></a> [map_public_ip_on_launch](#input\_map_public_ip_on_launch) | Specify true to indicate that instances launched into the subnet should be assigned a public IP address. | `boolean` | `false` | no |
 
 #### subnet_customer_owned_ip_configs
