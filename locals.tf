@@ -58,10 +58,6 @@ locals {
 
     nat_gateway_ids = local.enable_nat_gateway ? values(module.nat_gateways.nat_gatways_config)[*].id : []
 
-    nat_gateways_for_infra_subnets = !local.enable_nat_gateway ? null : (
-                                            local.single_nat_gateway ? local.nat_gateway_ids[0] : (
-                                                (local.multiple_nat_gateways && can(var.nat_gateway_routes["infra-subnets"])) ? (
-                                                        module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["infra-subnets"]].id) : local.nat_gateway_ids[0]))
     nat_gateways_for_outpost_subnets = !local.enable_nat_gateway ? null : (
                                             local.single_nat_gateway ? local.nat_gateway_ids[0] : (
                                                 (local.multiple_nat_gateways && can(var.nat_gateway_routes["outpost-subnets"])) ? (
