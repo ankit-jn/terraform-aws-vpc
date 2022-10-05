@@ -13,7 +13,7 @@ This module features the following components to be provisioned with different c
 - egress-only Internet gateway [[aws_egress_only_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/egress_only_internet_gateway)]
 - Subnets [[aws_subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)]
     - Public Subnets
-    - Infrastructure Subnets (Private in Nature)
+    - Infrastructure Subnets
     - Outpost Subnets (Private in Nature)
     - Application Subnets (Private in Nature)
     - Database Subnets (Private in Nature)
@@ -301,7 +301,7 @@ Map Value - An array of Rule Maps as defined below<br><br>
 | <a name="vpc_igw"></a> [vpc_igw](#output\_vpc\_igw) | `map` | The details of the Internet Gateway:<br> `id` - The ID of IGW<br> `arn` - Amazon Resource Name (ARN) of IGW<br> `availability_zone` - The ID of the AWS account that owns the IGW. |
 | <a name="vpc_egress_igw_id"></a> [vpc_egress_igw_id](#output\_vpc\_egress\_igw\_id) | `string` | The ID of the egress-only Internet gateway. |
 | <a name="public_subnets"></a> [public_subnets](#output\_public\_subnets) | `map` | The configuration of all Public subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned.|
-| <a name="infra_subnets"></a> [infra_subnets](#output\_private\_subnets) | `map` | The configuration of all Infrastructure subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
+| <a name="infra_subnets"></a> [infra_subnets](#output\_infra\_subnets) | `map` | The configuration of all Infrastructure subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
 | <a name="outpost_subnets"></a> [outpost_subnets](#output\_outpost\_subnets) | `map` | The configuration of all Outpost subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
 | <a name="application_subnets"></a> [application_subnets](#output\_application\_subnets) | `map` | The configuration of all Application subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
 | <a name="db_subnets"></a> [db_subnets](#output\_db\_subnets) | `string` | The configuration of all Database subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |

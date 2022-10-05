@@ -140,7 +140,7 @@ module "nat_gateways" {
 
     vpc_name = var.vpc_name
     nat_gateways = var.nat_gateways
-    subnets = module.public_subnets.subnets_config
+    subnets = module.infra_subnets.subnets_config
     tags = merge(var.default_tags, var.nat_gateway_tags)
 }
 
@@ -157,6 +157,7 @@ module "public_route_table" {
 
     rt_type = "public"
     subnets = module.public_subnets.subnets_config
+
     create_igw_ipv4_route = var.create_igw
     igw_id = var.create_igw ? module.igw[0].igw_configs.id : ""
     create_igw_ipv6_route = var.create_egress_only_igw
@@ -174,8 +175,10 @@ module "infra_route_table" {
     rt_type = "infra"
     subnets = module.infra_subnets.subnets_config
 
-    create_nat_gateway_routes = local.enable_nat_gateway
-    nat_gateway_id = local.single_nat_gateway ? local.nat_gateway_ids[0] : local.nat_gateways_for_infra_subnets
+    create_igw_ipv4_route = var.create_igw
+    igw_id = var.create_igw ? module.igw[0].igw_configs.id : ""
+    create_igw_ipv6_route = var.create_egress_only_igw
+    egress_igw_id = var.create_egress_only_igw ? module.igw[0].egress_igw_id : ""
 }
 
 module "outpost_route_table" {
