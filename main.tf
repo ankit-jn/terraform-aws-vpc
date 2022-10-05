@@ -77,12 +77,12 @@ module "public_subnets" {
     ]
 }
 
-# Private Subnets
-module "private_subnets" {
+# Infrastructure Subnets
+module "infra_subnets" {
     source = "./modules/subnets"
     
     vpc_id = aws_vpc.this.id
-    subnets = local.private_subnets
+    subnets = local.infra_subnets
     default_tags = merge(var.default_tags, var.subnet_default_tags)
 
     depends_on = [
@@ -163,19 +163,19 @@ module "public_route_table" {
     egress_igw_id = var.create_egress_only_igw ? module.igw[0].egress_igw_id : ""
 }
 
-module "private_route_table" {
+module "infra_route_table" {
     source = "./modules/route_table"
 
-    count = (local.private_subnets_count > 0) ? 1 : 0
+    count = (local.infra_subnets_count > 0) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
     vpc_name = var.vpc_name
 
-    rt_type = "private"
-    subnets = module.private_subnets.subnets_config
+    rt_type = "infra"
+    subnets = module.infra_subnets.subnets_config
 
     create_nat_gateway_routes = local.enable_nat_gateway
-    nat_gateway_id = local.single_nat_gateway ? local.nat_gateway_ids[0] : local.nat_gateways_for_private_subnets
+    nat_gateway_id = local.single_nat_gateway ? local.nat_gateway_ids[0] : local.nat_gateways_for_infra_subnets
 }
 
 module "outpost_route_table" {
@@ -186,7 +186,7 @@ module "outpost_route_table" {
     vpc_id = aws_vpc.this.id
     vpc_name = var.vpc_name
 
-    rt_type = "private"
+    rt_type = "infra"
     subnets = module.outpost_subnets.subnets_config
 
     create_nat_gateway_routes = local.enable_nat_gateway
@@ -243,19 +243,19 @@ module "public_network_acl" {
     tags = merge(var.default_tags, var.network_acl_default_tags)
 }
 
-# Private Network ACLs and Network ACL Rules
-module "private_network_acl" {
+# Infrastructure Network ACLs and Network ACL Rules
+module "infra_network_acl" {
     source = "./modules/nacl"
 
-    count = (var.dedicated_private_network_acl && (local.private_subnets_count > 0)) ? 1 : 0
+    count = (var.dedicated_infra_network_acl && (local.infra_subnets_count > 0)) ? 1 : 0
 
     vpc_id = aws_vpc.this.id
     vpc_name = var.vpc_name
     
-    subnet_id = values(module.private_subnets.subnets_config)[*].id
+    subnet_id = values(module.infra_subnets.subnets_config)[*].id
 
-    acl_type = "private"
-    nacl_rules = var.private_nacl_rules
+    acl_type = "infra"
+    nacl_rules = var.infra_nacl_rules
     tags = merge(var.default_tags, var.network_acl_default_tags)
 }
 

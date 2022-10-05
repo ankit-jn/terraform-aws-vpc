@@ -248,15 +248,15 @@ EOF
     }
 }
 
-variable "dedicated_private_network_acl" {
-  description = "Set true if dedicated network ACL is required for private subnets"
+variable "dedicated_infra_network_acl" {
+  description = "Set true if dedicated network ACL is required for Infrastructure subnets"
   type        = bool
   default     = false
 }
 
-variable "private_nacl_rules" {
+variable "infra_nacl_rules" {
     description = <<EOF
-Configuration Map of Rules of 2 different rule types for Private Dedicated Network ACL where
+Configuration Map of Rules of 2 different rule types for Infrastructure Dedicated Network ACL where
 Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
 Map Value - An array of Rule Maps
 
@@ -518,7 +518,7 @@ variable "subnets" {
 Key of the map is Subnet Type and Value of the map would be an array of Subnets Map 
 There could be 5 Subnet Types [Keys] : 
 'public-subnets', 
-'private-subnets', 
+'infra-subnets', 
 'outpost-subnets', 
 'application-subnets', 
 'db-subnets'
@@ -576,9 +576,9 @@ variable "nat_gateway_routes" {
     description = <<EOF
 The configuration map for associating NAT Gateways in Route tables
 Map Keys: The key would be the following values -
-1. "private-subnets"
+1. "infra-subnets"
 2. "outpost-subnets"
-3. "application-subnets
+3. "application-subnets"
 4. "db-subnets"
 
 Map Values: The identifier of the nat_gateways map
