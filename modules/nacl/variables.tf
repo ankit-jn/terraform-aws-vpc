@@ -9,7 +9,7 @@ variable "vpc_name" {
 }
 
 variable "acl_type" {
-    description = "The Type of the NACL: public, private, outpost"
+    description = "The Type of the NACL: public, infra, outpost"
     type = string
     default = ""
 }

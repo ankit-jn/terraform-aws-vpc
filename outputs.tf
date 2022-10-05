@@ -88,9 +88,9 @@ output "public_subnets" {
     value = module.public_subnets.subnets_config
 }
 
-output "private_subnets" {
-    description = "The configuration of all private subnets"
-    value = module.private_subnets.subnets_config
+output "infra_subnets" {
+    description = "The configuration of all Infrastructure subnets"
+    value = module.infra_subnets.subnets_config
 }
 
 output "outpost_subnets" {
@@ -114,9 +114,9 @@ output "public_route_table_id" {
     value       = try(module.public_route_table[0].route_table_id, "")
 }
 
-output "private_route_table_id" {
-    description = "ID of private route table"
-    value       = try(module.private_route_table[0].route_table_id, "")
+output "infra_route_table_id" {
+    description = "ID of Infrastructure route table"
+    value       = try(module.infra_route_table[0].route_table_id, "")
 }
 
 output "outpost_route_table_id" {

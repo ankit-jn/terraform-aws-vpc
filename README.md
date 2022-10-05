@@ -13,7 +13,7 @@ This module features the following components to be provisioned with different c
 - egress-only Internet gateway [[aws_egress_only_internet_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/egress_only_internet_gateway)]
 - Subnets [[aws_subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)]
     - Public Subnets
-    - Private Subnets (Private in Nature)
+    - Infrastructure Subnets (Private in Nature)
     - Outpost Subnets (Private in Nature)
     - Application Subnets (Private in Nature)
     - Database Subnets (Private in Nature)
@@ -72,7 +72,7 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="dhcp_options_netbios_node_type"></a> [dhcp_options_netbios_node_type](#input\_dhcp\_options\_netbios\_node\_type) | The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
 | <a name="create_igw"></a> [create_igw](#input\_create\_igw) | Flag to set whether to create internet gateway | `boolean` | `true` | no | |
 | <a name="create_egress_only_igw"></a> [create_egress_only_igw](#input\_create\_egress\_only\_igw) | Flag to set whether to create Egress only internet gateway | `boolean` | `false` | no | |
-| <a name="subnets"></a> [subnets](#subnets) | The configuration Map of Subnets | `map` | `{}` | yes | <pre>subnets = {<br>   public-subnets = [<br>      {<br>         subnet_core_configs = {<br>            name = "snet-1"<br>            availability_zone   = "ap-south-1a"<br>         }<br>         subnet_ip_configs = {<br>            cidr_block = "10.1.0.0/28"<br>         }<br>         subnet_tags = {<br>            "Department" = "IT"<br>         }<br>         subnet_dns_configs = {<br>            enable_resource_name_dns_a_record_on_launch = true<br>         }<br>       },<br>       {<br>           // all configs like above<br>       },<br>    ],<br>    private-subnets = [<br>      {<br>         // all configs like above for another subnet<br>      },<br>      {         // all configs like above<br>      },<br>   ]<br>}<pre> |
+| <a name="subnets"></a> [subnets](#subnets) | The configuration Map of Subnets | `map` | `{}` | yes | <pre>subnets = {<br>   public-subnets = [<br>      {<br>         subnet_core_configs = {<br>            name = "snet-1"<br>            availability_zone   = "ap-south-1a"<br>         }<br>         subnet_ip_configs = {<br>            cidr_block = "10.1.0.0/28"<br>         }<br>         subnet_tags = {<br>            "Department" = "IT"<br>         }<br>         subnet_dns_configs = {<br>            enable_resource_name_dns_a_record_on_launch = true<br>         }<br>       },<br>       {<br>           // all configs like above<br>       },<br>    ],<br>    infra-subnets = [<br>      {<br>         // all configs like above for another subnet<br>      },<br>      {         // all configs like above<br>      },<br>   ]<br>}<pre> |
 
 #### NACL specific properties
 ---
@@ -80,8 +80,8 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 |:------|:------|:------|:------|:------:|:------|
 | <a name="dedicated_public_network_acl"></a> [dedicated_public_network_acl](#input\_dedicated\_public\_network\_acl) | Set true if dedicated network ACL is required for public subnets. | `boolean` | `false` | no |  |
 | <a name="public_nacl_rules"></a> [public_nacl_rules](#nacl\_rules) | Configuration map of Rules for Public Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
-| <a name="dedicated_private_network_acl"></a> [dedicated_private_network_acl](#input\_dedicated\_private\_network\_acl) | Set true if dedicated network ACL is required for Private subnets. | `boolean` | `false` | no |  |
-| <a name="private_nacl_rules"></a> [private_nacl_rules](#nacl\_rules) | Configuration map of Rules for Private Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
+| <a name="dedicated_infra_network_acl"></a> [dedicated_infra_network_acl](#input\_dedicated\_infra\_network\_acl) | Set true if dedicated network ACL is required for Infrastructure subnets. | `boolean` | `false` | no |  |
+| <a name="infra_nacl_rules"></a> [infra_nacl_rules](#nacl\_rules) | Configuration map of Rules for Infrastructure Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
 | <a name="dedicated_outpost_network_acl"></a> [dedicated_outpost_network_acl](#input\_dedicated\_outpost\_network\_acl) | Set true if dedicated network ACL is required for Outpost subnets. | `boolean` | `false` | no |  |
 | <a name="outpost_nacl_rules"></a> [outpost_nacl_rules](#nacl\_rules) | Configuration map of Rules for Outpost Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
 | <a name="dedicated_application_network_acl"></a> [dedicated_application_network_acl](#input\_dedicated\_application\_network\_acl) | Set true if dedicated network ACL is required for Application subnets. | `boolean` | `false` | no |  |
@@ -91,13 +91,13 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 #### NAT Gateways specific properties
 ---
 - The property`nat_gateways` is used to define which public subnet is to be used to provisioned NAT gateway in.
-- Purpose of the property `nat_gateway_routes` is that there cold be dedicated route table for subnets i.e. route table for private subnets could be different from the route table for application subnets so which NAT Gateway is to be used as target for the routes in these route table
+- Purpose of the property `nat_gateway_routes` is that there cold be dedicated route table for subnets i.e. route table for Infrastructure subnets could be different from the route table for application subnets so which NAT Gateway is to be used as target for the routes in these route table
     - If only single Nat Gateway is provisioned then by default the same will be picked up automatically, hence this property would be skipped
 
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="nat_gateways"></a> [nat_gateways](#input\_nat\_gateways) | The configuration map of Nat Gateways.<br>Each key will be unique identifier for the Nat Gateway<br> Value will be the subnet name where NAT gateway will be provisioned | `map` | `{}` | no | <pre>nat_gateways = {<br>   "nat-1" = "\<subnet-name\>"<br>   "nat-2" = "\<subnet-name\>"<br>}<pre> |
-| <a name="nat_gateway_routes"></a> [nat_gateway_routes](#input\_nat\_gateway\_routes) | The configuration map for associating NAT Gateways in Route tables.<br> There could be 4 keys: <br> - `private-subnets` <br> - `outpost-subnets` <br> - `application-subnets` <br> - `db-subnets` | `map` | `{}` | no | <pre>nat_gateway_routes = {<br>   "private-subnets" = "nat-1"<br>   "db-subnets" = "nat-2"<br>}<pre> |
+| <a name="nat_gateway_routes"></a> [nat_gateway_routes](#input\_nat\_gateway\_routes) | The configuration map for associating NAT Gateways in Route tables.<br> There could be 4 keys: <br> - `infra-subnets` <br> - `outpost-subnets` <br> - `application-subnets` <br> - `db-subnets` | `map` | `{}` | no | <pre>nat_gateway_routes = {<br>   "infra-subnets" = "nat-1"<br>   "db-subnets" = "nat-2"<br>}<pre> |
 
 #### TAG Specific properties
 ---
@@ -176,7 +176,7 @@ Map Values - A map of CIDR configurations with the following properties:
 #### subnets
 
 Subnets are managed as a map of 5 different type of subnets where<br>
-Map Key - Subnet Type [There could be 5 Subnet Types : `public-subnets` `private-subnets` `outpost-subnets` `application-subnets` `db-subnets']<br>
+Map Key - Subnet Type [There could be 5 Subnet Types : `public-subnets` `infra-subnets` `outpost-subnets` `application-subnets` `db-subnets']<br>
 Map value - An array of Subnet Maps as defined below 
 
 | Name | Description | Type | Default | Required |
@@ -301,12 +301,12 @@ Map Value - An array of Rule Maps as defined below<br><br>
 | <a name="vpc_igw"></a> [vpc_igw](#output\_vpc\_igw) | `map` | The details of the Internet Gateway:<br> `id` - The ID of IGW<br> `arn` - Amazon Resource Name (ARN) of IGW<br> `availability_zone` - The ID of the AWS account that owns the IGW. |
 | <a name="vpc_egress_igw_id"></a> [vpc_egress_igw_id](#output\_vpc\_egress\_igw\_id) | `string` | The ID of the egress-only Internet gateway. |
 | <a name="public_subnets"></a> [public_subnets](#output\_public\_subnets) | `map` | The configuration of all Public subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned.|
-| <a name="private_subnets"></a> [private_subnets](#output\_private\_subnets) | `map` | The configuration of all Private subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
+| <a name="infra_subnets"></a> [infra_subnets](#output\_private\_subnets) | `map` | The configuration of all Infrastructure subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
 | <a name="outpost_subnets"></a> [outpost_subnets](#output\_outpost\_subnets) | `map` | The configuration of all Outpost subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
 | <a name="application_subnets"></a> [application_subnets](#output\_application\_subnets) | `map` | The configuration of all Application subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
 | <a name="db_subnets"></a> [db_subnets](#output\_db\_subnets) | `string` | The configuration of all Database subnets:<br>Map Key: Subnet name<br>Map Value: Nested map of the following properties:<br>  `id` - The ID of Subnet<br> `arn` - Amazon Resource Name (ARN) of Subnet<br> `availability_zone` - AZ Name where subnet is provisioned.<br> `availability_zone_id` - AZ ID where subnet is provisioned. |
 | <a name="public_route_table_id"></a> [public_route_table_id](#output\_public\_route\_table\_id) | `string` | ID of Public route table |
-| <a name="private_route_table_id"></a> [private_route_table_id](#output\_private\_route\_table\_id) | `string` | ID of Private route table |
+| <a name="infra_route_table_id"></a> [infra_route_table_id](#output\_infra\_route\_table\_id) | `string` | ID of Infrastructure route table |
 | <a name="outpost_route_table_id"></a> [outpost_route_table_id](#output\_outpost\_route\_table\_id) | `string` | ID of Outpost route table |
 | <a name="application_route_table_id"></a> [vpc_config](#output\_application\_route\_table\_id) | `string` | ID of Application route table |
 | <a name="db_route_table_id"></a> [db_route_table_id](#output\_db\_route\_table\_id) | `map` | ID of Database route table |
