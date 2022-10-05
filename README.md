@@ -97,7 +97,7 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
 | <a name="nat_gateways"></a> [nat_gateways](#input\_nat\_gateways) | The configuration map of Nat Gateways.<br>Each key will be unique identifier for the Nat Gateway<br> Value will be the subnet name where NAT gateway will be provisioned | `map` | `{}` | no | <pre>nat_gateways = {<br>   "nat-1" = "\<subnet-name\>"<br>   "nat-2" = "\<subnet-name\>"<br>}<pre> |
-| <a name="nat_gateway_routes"></a> [nat_gateway_routes](#input\_nat\_gateway\_routes) | The configuration map for associating NAT Gateways in Route tables.<br> There could be 4 keys: <br> - `infra-subnets` <br> - `outpost-subnets` <br> - `application-subnets` <br> - `db-subnets` | `map` | `{}` | no | <pre>nat_gateway_routes = {<br>   "infra-subnets" = "nat-1"<br>   "db-subnets" = "nat-2"<br>}<pre> |
+| <a name="nat_gateway_routes"></a> [nat_gateway_routes](#input\_nat\_gateway\_routes) | The configuration map for associating NAT Gateways in Route tables.<br> There could be 3 keys: <br> - `outpost-subnets` <br> - `application-subnets` <br> - `db-subnets` | `map` | `{}` | no | <pre>nat_gateway_routes = {<br>   "infra-subnets" = "nat-1"<br>   "db-subnets" = "nat-2"<br>}<pre> |
 
 #### TAG Specific properties
 ---
@@ -176,7 +176,7 @@ Map Values - A map of CIDR configurations with the following properties:
 #### subnets
 
 Subnets are managed as a map of 5 different type of subnets where<br>
-Map Key - Subnet Type [There could be 5 Subnet Types : `public-subnets` `infra-subnets` `outpost-subnets` `application-subnets` `db-subnets']<br>
+Map Key - Subnet Type [There could be 5 Subnet Types : `public-subnets` `infra-subnets` `outpost-subnets` `application-subnets` `db-subnets`]<br>
 Map value - An array of Subnet Maps as defined below 
 
 | Name | Description | Type | Default | Required |
