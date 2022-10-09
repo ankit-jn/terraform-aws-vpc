@@ -372,31 +372,40 @@ variable "create_egress_only_igw" {
 ## Setting for Routes to Internet Gateway and Egress Only Internet Gateway in ROute Tables
 ############################################################################################
 variable "create_igw_ipv4_route" {
-    description = "value"
+    description = <<EOF
+Flag to set if routes to IGW needs to be created in the dedicated route table 
+for the subnets; Elligible only for Public Subnets
+EOF
     type = bool
     default = true
 }
 
 variable "create_igw_ipv6_route" {
-    description = "value"
+    description = <<EOF
+Flag to set if routes to Egress IGW needs to be created in the dedicated route table 
+for the subnets; Elligible only for Public Subnets
+EOF
     type = bool
     default = false
 }
 
 variable "egress_igw_id" {
-    description = "value"
+    description = "ID of the Egress Internet Gateway"
     type = string
     default = ""
 }
 
 variable "create_nat_gateway_route" {
-    description = "value"
+    description = <<EOF
+Flag to set if routes to NAT Gateway needs to be created in the dedicated route table 
+for the subnets; Elligible only for Private Subnets
+EOF
     type = bool
     default = false
 }
 
 variable "nat_gateway_id" {
-    description = "value"
+    description = "ID of the NAT Gateway"
     type = string
     default = ""
 }
@@ -464,26 +473,6 @@ Map Value - Subnet Name in which Nat Gatway will be created
 EOF
     type = map
     default = {}
-}
-
-variable "nat_gateway_routes" {
-    description = <<EOF
-The configuration map for associating NAT Gateways in Route tables
-Map Keys: The key would be the following values -
-1. "infra-subnets"
-2. "outpost-subnets"
-3. "application-subnets"
-4. "db-subnets"
-
-Map Values: The identifier of the nat_gateways map
-
-Purpose: 
-The purpose of this map variable is to select Nat Gatways for defining routes in key specific route Table
-
-Note: In case of Single nat gateway; This variable is not required; as the one will be set intelligently
-EOF
-    default = {}
-
 }
 
 ## Tags

@@ -83,7 +83,7 @@ output "subnets" {
 
 # Outputs for Route Tables
 output "route_table_id" {
-    description = "ID of route table"
+    description = "ID of Dedicated route table"
     value       = try(module.route_table[0].route_table_id, "")
 }
 
