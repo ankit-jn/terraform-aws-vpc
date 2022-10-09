@@ -1,73 +1,10 @@
 locals {
-    instance_tenancy = lookup(var.vpc_base_configs, "instance_tenancy", "default")
-    enable_dhcp_options = lookup(var.vpc_base_configs, "enable_dhcp_options", false)
-    ipv6_cidr_block_network_border_group = lookup(var.vpc_base_configs, "ipv6_cidr_block_network_border_group", null)
-    
-    #IPv4
-    use_ipv4_ipam_pool      = lookup(var.vpc_ipam_configs, "use_ipv4_ipam_pool", false)
-    ipv4_cidr_block         = (!local.use_ipv4_ipam_pool) ? var.ipv4_cidr_block : null
-    ipv4_ipam_pool_id       = local.use_ipv4_ipam_pool ? var.vpc_ipam_configs.ipv4_ipam_pool_id : null
-    ipv4_netmask_length     = local.use_ipv4_ipam_pool ? var.vpc_ipam_configs.ipv4_netmask_length : null
-    
-    #IPv6
-    use_ipv6_ipam_pool  = lookup(var.vpc_ipam_configs, "use_ipv6_ipam_pool", false)
-    derive_ipv6 =  (var.enable_ipv6 && local.use_ipv6_ipam_pool) ? true : false
-    
-    ipv6_ipam_pool_id       = local.derive_ipv6 ? var.vpc_ipam_configs.ipv6_ipam_pool_id : null
-    specific_ipv6_cidr      = (local.derive_ipv6 && can(var.ipv6_cidr_block)) ? true : false
-    ipv6_cidr_block         = (local.derive_ipv6 && local.specific_ipv6_cidr) ? var.ipv6_cidr_block : null
-    ipv6_netmask_length     = (local.derive_ipv6 && !local.specific_ipv6_cidr) ? var.vpc_ipam_configs.ipv6_netmask_length : null
- 
-    #dns
-    enable_dns_support      = can(var.vpc_dns_configs.enable_dns_support) ? var.vpc_dns_configs.enable_dns_support : true
-    enable_dns_hostnames    = can(var.vpc_dns_configs.enable_dns_hostnames) ? var.vpc_dns_configs.enable_dns_hostnames : false
-   
-    #classiclink
-    enable_classiclink              = can(var.vpc_classiclink_configs.enable_classiclink) ? var.vpc_classiclink_configs.enable_classiclink : false
-    enable_classiclink_dns_support  = can(var.vpc_classiclink_configs.enable_classiclink_dns_support) ? var.vpc_classiclink_configs.enable_classiclink_dns_support : false
+    vpc_id = var.create_vpc ? module.vpc[0].vpc_config.id : data.aws_vpc.this[0].id
+    subnets_count = length(var.subnets)
 
-    #Default NACL Rules
-    default_nacl_inbound_rules = { for k, v in var.default_network_acl : k => v if k == "inbound" }
-    default_nacl_outbound_rules = { for k, v in var.default_network_acl : k => v if k == "outbound" }
-    
-    #Default Security Group Rules
-    default_sg_ingress_cidr_rules = { for k, v in var.default_sg_rules : k => v if k == "ingress-cidr" }
-    default_sg_ingress_self_rules = { for k, v in var.default_sg_rules : k => v if k == "ingress-self" }
-    default_sg_egress_rules = { for k, v in var.default_sg_rules : k => v if k == "egress" }
+    create_igw_ipv4_route = (var.create_igw && var.create_igw_ipv4_route) ? true : false
+    create_igw_ipv6_route = (var.create_egress_only_igw && var.create_igw_ipv6_route) ? true : false
+    igw_id = (var.create_vpc && var.create_igw) ? module.igw[0].igw_configs.id : local.create_igw_ipv4_route ? data.aws_internet_gateway.this[0].id : ""
+    egress_igw_id = (var.create_vpc && var.create_egress_only_igw) ? module.igw[0].egress_igw_id : var.egress_igw_id
 
-    vpc_id = try(aws_vpc_ipv4_cidr_block_association.this[0].vpc_id, aws_vpc.this.id, "")
-
-    #VPC Subnets
-    public_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "public-subnets" ])
-    infra_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "infra-subnets" ])
-    outpost_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "outpost-subnets" ])
-    application_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "application-subnets" ])
-    db_subnets = flatten([for subnets_type, value in var.subnets : value if subnets_type == "db-subnets" ])
-    
-    public_subnets_count = length(local.public_subnets)
-    infra_subnets_count = length(local.infra_subnets)
-    outpost_subnets_count = length(local.outpost_subnets)
-    application_subnets_count = length(local.application_subnets)
-    db_subnets_count = length(local.db_subnets)
-
-
-    ## NAT Gateway and ROutes association specific variables
-    enable_nat_gateway = length(keys(var.nat_gateways)) > 0
-    single_nat_gateway = length(keys(var.nat_gateways)) == 1
-    multiple_nat_gateways = length(keys(var.nat_gateways)) > 1
-
-    nat_gateway_ids = local.enable_nat_gateway ? values(module.nat_gateways.nat_gatways_config)[*].id : []
-
-    nat_gateways_for_outpost_subnets = !local.enable_nat_gateway ? null : (
-                                            local.single_nat_gateway ? local.nat_gateway_ids[0] : (
-                                                (local.multiple_nat_gateways && can(var.nat_gateway_routes["outpost-subnets"])) ? (
-                                                        module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["outpost-subnets"]].id) : local.nat_gateway_ids[0]))
-    nat_gateways_for_application_subnets = !local.enable_nat_gateway ? null : (
-                                            local.single_nat_gateway ? local.nat_gateway_ids[0] : (
-                                                (local.multiple_nat_gateways && can(var.nat_gateway_routes["application-subnets"])) ? (
-                                                        module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["application-subnets"]].id) : local.nat_gateway_ids[0]))
-    nat_gateways_for_db_subnets = !local.enable_nat_gateway ? null : (
-                                            local.single_nat_gateway ? local.nat_gateway_ids[0] : (
-                                                (local.multiple_nat_gateways && can(var.nat_gateway_routes["db-subnets"])) ? (
-                                                        module.nat_gateways.nat_gatways_config[var.nat_gateway_routes["db-subnets"]].id) : local.nat_gateway_ids[0]))
 }
