@@ -1,18 +1,7 @@
-variable "create_vpc" {
-    description = "(Optional, default false) Flag to decide if a new VPC should be created"
-    type = bool
-    default = true
-}
-
-variable "vpc_id" {
-    description = "(Optional) The ID of the VPC [Required only whern create_vpc is set false]"
-    type = string
-    default = ""
-}
-
 variable "vpc_name" {
     description = "(Optional) The name of the VPC"
     type = string
+    default = "vpc-custom"
 }
 
 variable "ipv4_cidr_block" {
@@ -218,48 +207,6 @@ EOF
   default     = []
 }
 
-#########################################
-## Network ACLs
-#########################################
-
-variable "dedicated_network_acl" {
-  description = "Set true if dedicated network ACL is required for subnets"
-  type        = bool
-  default     = false
-}
-
-variable "nacl_rules" {
-    description = <<EOF
-Configuration Map of Rules of 2 different rule types for Dedicated Network ACL where
-Map key - Rule Type [There could be 2 Rule Types : `inbound`, `outbound`]<br>
-Map Value - An array of Rule Maps
-
-Note - One of `cidr_block` and `ipv6_cidr_block` is mandatory
-EOF
-    default = {
-      "inbound" = [
-        {
-          rule_number = 100
-          rule_action = "allow"
-          from_port   = 0
-          to_port     = 0
-          protocol    = "-1"
-          cidr_block  = "0.0.0.0/0"
-        },
-      ],
-      "outbound" = [
-        {
-          rule_number = 100
-          rule_action = "allow"
-          from_port   = 0
-          to_port     = 0
-          protocol    = "-1"
-          cidr_block  = "0.0.0.0/0"
-        },
-      ]
-    }
-}
-
 variable "default_network_acl" {
   description = <<EOF
 Configuration Map of Rules of 2 different rule types for Default Network ACL where
@@ -353,128 +300,6 @@ EOF
     default = []
 }
 
-####################################################
-## Internet Gateway and Egress Only Internet Gateway
-####################################################
-variable "create_igw" {
-    description = "(Optional) Flag to set whether to create internet gateway"
-    type = bool
-    default = true
-}
-
-variable "create_egress_only_igw" {
-    description = "(Optional) Flag to set whether to create Egress only internet gateway"
-    type = bool
-    default = false
-}
-
-############################################################################################
-## Setting for Routes to Internet Gateway and Egress Only Internet Gateway in ROute Tables
-############################################################################################
-variable "create_igw_ipv4_route" {
-    description = <<EOF
-Flag to set if routes to IGW needs to be created in the dedicated route table 
-for the subnets; Elligible only for Public Subnets
-EOF
-    type = bool
-    default = true
-}
-
-variable "create_igw_ipv6_route" {
-    description = <<EOF
-Flag to set if routes to Egress IGW needs to be created in the dedicated route table 
-for the subnets; Elligible only for Public Subnets
-EOF
-    type = bool
-    default = false
-}
-
-variable "egress_igw_id" {
-    description = "ID of the Egress Internet Gateway"
-    type = string
-    default = ""
-}
-
-variable "create_nat_gateway_route" {
-    description = <<EOF
-Flag to set if routes to NAT Gateway needs to be created in the dedicated route table 
-for the subnets; Elligible only for Private Subnets
-EOF
-    type = bool
-    default = false
-}
-
-variable "nat_gateway_id" {
-    description = "ID of the NAT Gateway"
-    type = string
-    default = ""
-}
-####################################################
-## Subnets
-####################################################
-variable "subnets_type" {
-    description = "The value that can show the purpose of the subnet like 'infra', 'web', 'rds' etc..."
-    type        = string
-    default     = "private"
-}
-
-variable "subnets" {
-    description = <<EOF
-(Optional) The List of Subnets to be provisioned where each entry is a map with following Key-Pairs:
-
-1. subnet_core_configs: (Required) This is again a Map of the Core settings for the subnet with the following keys:
-
-1.1. name - (Required) The name of the subnet
-1.2. availability_zone - (Optional) AZ for the subnet.
-
-2. subnet_ip_configs: (Optional) This is again a Map of the IPv4/IPv6 settings for the subnet with the following keys:
-
-2.1. cidr_block - (Optional) The IPv4 CIDR block for the subnet.
-2.2. assign_ipv6_address_on_creation - (Optional) Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address.
-2.3. ipv6_cidr_block - (Optional) The IPv6 network range for the subnet, in CIDR notation.
-2.4. ipv6_native - (Optional) Indicates whether to create an IPv6-only subnet.
-2.5. map_public_ip_on_launch - (Optional) Specify true to indicate that instances launched into the subnet should be assigned a public IP address.
-
-
-3. subnet_customer_owned_ip_configs: (Optional) This is again a Map of the Customer Owned IP settings for the subnet with the following keys:
-
-3.1. map_customer_owned_ip_on_launch - (Optional) Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address.
-3.2. customer_owned_ipv4_pool - (Optional) The customer owned IPv4 address pool.
-3.3. vpc_dns_host_name - (Optional) The Amazon Resource Name (ARN) of the Outpost.
-
-4. subnet_dns_configs: (Optional) This is again a Map of the DNS settings for the subnet with the following keys:
-
-4.1. enable_dns64 - (Optional) Indicates whether DNS queries made to the Amazon-provided DNS Resolver 
-                       in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.
-4.2. enable_resource_name_dns_a_record_on_launch - (Optional) Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
-4.3. enable_resource_name_dns_aaaa_record_on_launch - (Optional) Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
-
-4.4. private_dns_hostname_type_on_launch - (Optional) The type of hostnames to assign to instances in the subnet at launch.
-
-5. subnet_tags: (Optional) A map of tags to assign to the resource.
-
-EOF
-    default = []
-}
-
-variable "dedicated_route_table" {
-  description = "Set false if do not need a dedicated route table for the subnets"
-  type        = bool
-  default     = true
-}
-
-
-## NAT Gateways
-variable "nat_gateways" {
-    description = <<EOF
-The configuration map of Nat Gateways
-Map Key - Unique identifier for Nat Gateway Name
-Map Value - Subnet Name in which Nat Gatway will be created
-EOF
-    type = map
-    default = {}
-}
-
 ## Tags
 
 variable "default_tags" {
@@ -489,32 +314,8 @@ variable "vpc_tags" {
     default = {}
 }
 
-variable "igw_tags" {
-    description = "(Optional) A map of tags to assign to IGW."
-    type = map
-    default = {}
-}
-
 variable "rt_default_tags" {
     description = "(Optional) A map of tags to assign to the route Tables."
-    type = map
-    default = {}
-}
-
-variable "subnet_default_tags" {
-    description = "(Optional) A map of tags to assign to all the subnets."
-    type = map
-    default = {}
-}
-
-variable "network_acl_default_tags" {
-    description = "(Optional) A map of tags to assign to all the Network ACLs."
-    type = map
-    default = {}
-}
-
-variable "nat_gateway_tags" {
-    description = "(Optional) A map of tags to assign to all the NAT Gateways."
     type = map
     default = {}
 }
