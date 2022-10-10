@@ -43,7 +43,7 @@ This module features the following components to be provisioned with different c
 
 ## Examples
 
-Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-examples/tree/main/aws-vpc) for VPC Provisioning
+Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-examples/tree/main/aws-vpc) to get an idea of effectively utilizing this module for VPC Provisioning
 
 ## Inputs
 
