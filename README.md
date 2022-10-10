@@ -67,22 +67,22 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="dhcp_options_ntp_servers"></a> [dhcp_options_ntp_servers](#input\_dhcp\_options\_ntp\_servers) | List of NTP servers to configure. This will require enable_dhcp_options set to true. | `list(string)` | `[]` | no | |
 | <a name="dhcp_options_netbios_name_servers"></a> [dhcp_options_netbios_name_servers](#input\_dhcp\_options\_netbios\_name\_servers) | List of NETBIOS name servers. This will require enable_dhcp_options set to true. | `list(string)` | `[]` | no | |
 | <a name="dhcp_options_netbios_node_type"></a> [dhcp_options_netbios_node_type](#input\_dhcp\_options\_netbios\_node\_type) | The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. This will require enable_dhcp_options set to true. | `string` | `""` | no | |
-| <a name="create_igw"></a> [create_igw](#input\_create\_igw) | Flag to set whether to create internet gateway | `boolean` | `true` | no | |
-| <a name="create_egress_only_igw"></a> [create_egress_only_igw](#input\_create\_egress\_only\_igw) | Flag to set whether to create Egress only internet gateway | `boolean` | `false` | no | |
+| <a name="create_igw"></a> [create_igw](#input\_create\_igw) | Flag to set whether to create internet gateway | `bool` | `true` | no | |
+| <a name="create_egress_only_igw"></a> [create_egress_only_igw](#input\_create\_egress\_only\_igw) | Flag to set whether to create Egress only internet gateway | `bool` | `false` | no | |
 | <a name="subnets_type"></a> [subnets_type](#input\_subnets\_type) | The value that can show the purpose of the subnet like 'infra', 'web', 'rds' etc... | `string` | `private` | no |  |
 | <a name="subnets"></a> [subnets](#subnets) | The List of Subnets to be created | `map` | `{}` | yes | <pre>subnets = [<br>   {<br>      subnet_core_configs = {<br>         name = "snet-1"<br>        availability_zone   = "ap-south-1a"<br>      }<br>      subnet_ip_configs = {<br>         cidr_block = "10.1.0.0/28"<br>      }<br>      subnet_tags = {<br>         "Department" = "IT"<br>     }<br>      subnet_dns_configs = {<br>         enable_resource_name_dns_a_record_on_launch = true<br>         }<br>    },<br>    {<br>        // all configs like above<br>    },<br>]<pre> |
-| <a name="create_igw_ipv4_route"></a> [create_igw_ipv4_route](#input\_create\_igw\_ipv4\_route) | Flag to set if routes to IGW needs to be created in the dedicated route table for the subnets; Elligible only for Public Subnets | `boolean` | `true` | no | |
-| <a name="create_igw_ipv6_route"></a> [create_igw_ipv6_route](#input\_create\_igw\_ipv6\_route) | Flag to set if routes to Egress IGW needs to be created in the dedicated route table for the subnets; Elligible only for Public Subnets | `boolean` | `false` | no | |
-| <a name="create_nat_gateway_route"></a> [create_nat_gateway_route](#input\_create_nat_gateway_route) | Flag to set if routes to NAT Gateway needs to be created in the dedicated route table for the subnets; Elligible only for Private Subnets | `boolean` | `false` | no | |
+| <a name="create_igw_ipv4_route"></a> [create_igw_ipv4_route](#input\_create\_igw\_ipv4\_route) | Flag to set if routes to IGW needs to be created in the dedicated route table for the subnets; Elligible only for Public Subnets | `bool` | `true` | no | |
+| <a name="create_igw_ipv6_route"></a> [create_igw_ipv6_route](#input\_create\_igw\_ipv6\_route) | Flag to set if routes to Egress IGW needs to be created in the dedicated route table for the subnets; Elligible only for Public Subnets | `bool` | `false` | no | |
+| <a name="create_nat_gateway_route"></a> [create_nat_gateway_route](#input\_create_nat_gateway_route) | Flag to set if routes to NAT Gateway needs to be created in the dedicated route table for the subnets; Elligible only for Private Subnets | `bool` | `false` | no | |
 | <a name="egress_igw_id"></a> [egress_igw_id](#input\_egress_igw_id) | ID of the Egress Internet Gateway | `string` |  | no | |
 | <a name="nat_gateway_id"></a> [nat_gateway_id](#input\_nat_gateway_id) | ID of the NAT Gateway | `string` |  | no | |
-| <a name="dedicated_route_table"></a> [dedicated_route_table](#input\_dedicated\_route\_table) | Set false if do not need a dedicated route table for the subnets | `boolean` | `true` | no | |
+| <a name="dedicated_route_table"></a> [dedicated_route_table](#input\_dedicated\_route\_table) | Set false if do not need a dedicated route table for the subnets | `bool` | `true` | no | |
 
 #### NACL specific properties
 ---
 | Name | Description | Type | Default | Required | Example|
 |:------|:------|:------|:------|:------:|:------|
-| <a name="dedicated_network_acl"></a> [dedicated_network_acl](#input\_dedicated\_network\_acl) | Set true if dedicated network ACL is required for subnets. | `boolean` | `false` | no |  |
+| <a name="dedicated_network_acl"></a> [dedicated_network_acl](#input\_dedicated\_network\_acl) | Set true if dedicated network ACL is required for subnets. | `bool` | `false` | no |  |
 | <a name="nacl_rules"></a> [nacl_rules](#nacl\_rules) | Configuration map of Rules for Dedicated Network ACL. | `map` | `{}` | no | <pre>{<br>  "inbound" = [<br>     {<br>     rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ],<br>  "outbound" = [<br>     {<br>       rule_number = 100<br>       rule_action = "allow"<br>       from_port   = 0<br>       to_port     = 0<br>       protocol    = "-1"<br>       cidr_block  = "0.0.0.0/0"<br>     },<br>  ]<br>}<pre> |
 
 #### NAT Gateways specific properties
@@ -123,7 +123,7 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
 | <a name="instance_tenancy"></a> [instance_tenancy](#input\_instance\_tenancy) | A tenancy option for instances launched into the VPC | `string` | `"default"` | no |
-| <a name="enable_dhcp_options"></a> [enable_dhcp_options](#input\_enable\_dhcp\_options) | Set it to true if you want to specify a DHCP options set | `boolean` | `false` | no |
+| <a name="enable_dhcp_options"></a> [enable_dhcp_options](#input\_enable\_dhcp\_options) | Set it to true if you want to specify a DHCP options set | `bool` | `false` | no |
 | <a name="ipv6_cidr_block_network_border_group"></a> [ipv6_cidr_block_network_border_group](#input\_ipv6\_cidr\_block\_network\_border\_group) | By default when an IPv6 CIDR is assigned to a VPC a default ipv6_cidr_block_network_border_group will be set to the region of the VPC. | `number` | `null` | no |
 
 #### vpc_ipam_configs
@@ -134,10 +134,10 @@ ipv6 specific properties are only required where enable_ipv6 is set true
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
-| <a name="use_ipv4_ipam_pool"></a> [use_ipv4_ipam_pool](#input\_use\_ipv4\_ipam\_pool) | Set flag true if use ipam pool for IPv4 CIDRs | `boolean` | `false` | no |
+| <a name="use_ipv4_ipam_pool"></a> [use_ipv4_ipam_pool](#input\_use\_ipv4\_ipam\_pool) | Set flag true if use ipam pool for IPv4 CIDRs | `bool` | `false` | no |
 | <a name="ipv4_ipam_pool_id"></a> [ipv4_ipam_pool_id](#input\_ipv4\_ipam\_pool\_id) | The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR. | `string` | `null` | no |
 | <a name="ipv4_netmask_length"></a> [ipv4_netmask_length](#input\_ipv4\_netmask\_length) | The netmask length of the IPv4 CIDR you want to allocate to this VPC. | `number` | `null` | no |
-| <a name="use_ipv6_ipam_pool"></a> [use_ipv6_ipam_pool](#input\_use\_ipv6\_ipam\_pool) | Set flag true if use ipam pool for IPv6 CIDRs | `boolean` | `false` | no |
+| <a name="use_ipv6_ipam_pool"></a> [use_ipv6_ipam_pool](#input\_use\_ipv6\_ipam\_pool) | Set flag true if use ipam pool for IPv6 CIDRs | `bool` | `false` | no |
 | <a name="ipv6_ipam_pool_id"></a> [ipv6_ipam_pool_id](#input\_ipv6\_ipam\_pool\_id) | The ID of an IPv4 IPAM pool you want to use for allocating this VPC's CIDR. | `string` | `null` | yes |
 | <a name="ipv6_netmask_length"></a> [ipv6_netmask_length](#input\_ipv6\_netmask\_length) | The netmask length of the IPv4 CIDR you want to allocate to this VPC. | `number` | `null` | no |
 
@@ -146,15 +146,15 @@ ipv6 specific properties are only required where enable_ipv6 is set true
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
-| <a name="enable_dns_support"></a> [enable_dns_support](#input\_enable\_dns\_support) | A boolean flag to enable/disable DNS support in the VPC. | `boolean` | `true` | no |
-| <a name="vpc_dns_host_name"></a> [vpc_dns_host_name](#input\_vpc\_dns\_host\_name) | A boolean flag to enable/disable DNS hostnames in the VPC. | `boolean` | `false` | no |
+| <a name="enable_dns_support"></a> [enable_dns_support](#input\_enable\_dns\_support) | A boolean flag to enable/disable DNS support in the VPC. | `bool` | `true` | no |
+| <a name="vpc_dns_host_name"></a> [vpc_dns_host_name](#input\_vpc\_dns\_host\_name) | A boolean flag to enable/disable DNS hostnames in the VPC. | `bool` | `false` | no |
 
 #### vpc_classiclink_configs
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
-| <a name="enable_classiclink"></a> [enable_classiclink](#input\_enable\_classiclink) | A boolean flag to enable/disable ClassicLink for the VPC. | `boolean` | `false` | no |
-| <a name="enable_classiclink_dns_support"></a> [enable_classiclink_dns_support](#input\_enable\_classiclink\_dns\_support) | A boolean flag to enable/disable ClassicLink DNS Support for the VPC. | `boolean` | `false` | no |
+| <a name="enable_classiclink"></a> [enable_classiclink](#input\_enable\_classiclink) | A boolean flag to enable/disable ClassicLink for the VPC. | `bool` | `false` | no |
+| <a name="enable_classiclink_dns_support"></a> [enable_classiclink_dns_support](#input\_enable\_classiclink\_dns\_support) | A boolean flag to enable/disable ClassicLink DNS Support for the VPC. | `bool` | `false` | no |
 
 #### vpc_secondary_cidr_blocks
 
@@ -196,17 +196,17 @@ Property `assign_ipv6_address_on_creation` can only be set `true` if the subnet 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
 | <a name="cidr_block"></a> [cidr_block](#input\_cidr_block) | The IPv4 CIDR block for the subnet. | `string` | `null` | no |
-| <a name="assign_ipv6_address_on_creation"></a> [assign_ipv6_address_on_creation](#input\_assign_ipv6_address_on_creation) | Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. | `boolean` | `false` | no |
+| <a name="assign_ipv6_address_on_creation"></a> [assign_ipv6_address_on_creation](#input\_assign_ipv6_address_on_creation) | Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. | `bool` | `false` | no |
 | <a name="ipv6_cidr_block"></a> [ipv6_cidr_block](#input\_ipv6_cidr_block) | The IPv6 network range for the subnet, in CIDR notation. | `string` | `null` | no |
-| <a name="ipv6_native"></a> [ipv6_native](#input\_ipv6_native) | Indicates whether to create an IPv6-only subnet. | `boolean` | `false` | no |
-| <a name="map_public_ip_on_launch"></a> [map_public_ip_on_launch](#input\_map_public_ip_on_launch) | Specify true to indicate that instances launched into the subnet should be assigned a public IP address. | `boolean` | `false` | no |
+| <a name="ipv6_native"></a> [ipv6_native](#input\_ipv6_native) | Indicates whether to create an IPv6-only subnet. | `bool` | `false` | no |
+| <a name="map_public_ip_on_launch"></a> [map_public_ip_on_launch](#input\_map_public_ip_on_launch) | Specify true to indicate that instances launched into the subnet should be assigned a public IP address. | `bool` | `false` | no |
 
 #### subnet_customer_owned_ip_configs
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
-| <a name="map_customer_owned_ip_on_launch"></a> [map_customer_owned_ip_on_launch](#subnet\_map\_customer\_owned\_ip\_on\_launch) | Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address. | `boolean` | `false` | no |
-| <a name="customer_owned_ipv4_pool"></a> [customer_owned_ipv4_pool](#subnet\_customer\_owned\_ipv4\_pool) | The customer owned IPv4 address pool. | `boolean` | `false` | no |
+| <a name="map_customer_owned_ip_on_launch"></a> [map_customer_owned_ip_on_launch](#subnet\_map\_customer\_owned\_ip\_on\_launch) | Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address. | `bool` | `false` | no |
+| <a name="customer_owned_ipv4_pool"></a> [customer_owned_ipv4_pool](#subnet\_customer\_owned\_ipv4\_pool) | The customer owned IPv4 address pool. | `bool` | `false` | no |
 | <a name="vpc_dns_host_name"></a> [vpc_dns_host_name](#subnet\_vpc\_dns\_host\_name) | The Amazon Resource Name (ARN) of the Outpost. | `string` | `null` | no |
 
 #### subnet_dns_configs
@@ -215,9 +215,9 @@ Property `enable_dns64` and `enable-resource-name-dns-aaaa-record-on-launch` can
 
 | Name | Description | Type | Default | Required |
 |:------|:------|:------|:------|:------:|
-| <a name="enable_dns64"></a> [enable_dns64](#input\_enable_dns64) | Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. | `boolean` | `false` | no |
-| <a name="enable_resource_name_dns_a_record_on_launch"></a> [enable_resource_name_dns_a_record_on_launch](#input\_enable\_resource\_name\_dns\_a\_record\_on\_launch) | Indicates whether to respond to DNS queries for instance hostnames with DNS A records. | `boolean` | `false` | no |
-| <a name="enable_resource_name_dns_aaaa_record_on_launch"></a> [enable_resource_name_dns_aaaa_record_on_launch](#input\_enable\_resource\_name\_dns\_aaaa\_record\_on\_launch) | Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records. | `boolean` | `false` | no |
+| <a name="enable_dns64"></a> [enable_dns64](#input\_enable_dns64) | Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. | `bool` | `false` | no |
+| <a name="enable_resource_name_dns_a_record_on_launch"></a> [enable_resource_name_dns_a_record_on_launch](#input\_enable\_resource\_name\_dns\_a\_record\_on\_launch) | Indicates whether to respond to DNS queries for instance hostnames with DNS A records. | `bool` | `false` | no |
+| <a name="enable_resource_name_dns_aaaa_record_on_launch"></a> [enable_resource_name_dns_aaaa_record_on_launch](#input\_enable\_resource\_name\_dns\_aaaa\_record\_on\_launch) | Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records. | `bool` | `false` | no |
 | <a name="private_dns_hostname_type_on_launch"></a> [private_dns_hostname_type_on_launch](#input\_private\_dns\_hostname\_type\_on\_launch) | The type of hostnames to assign to instances in the subnet at launch. | `string` | `null` | no |
 
 #### nacl_rules
@@ -288,10 +288,10 @@ Map Value - An array of Rule Maps as defined below<br><br>
 | <a name="vpc_default_network_acl_id"></a> [vpc_default_network_acl_id](#output\_vpc\_default\_network\_acl\_id) | `string` | The ID of the network ACL created by default on VPC creation |
 | <a name="vpc_default_security_group_id"></a> [vpc_default_security_group_id](#output\_vpc\_default\_security\_group\_id) | `string` | The ID of the security group created by default on VPC creation |
 | <a name="vpc_dhcp_options_id"></a> [vpc_dhcp_options_id](#output\_vpc\_dhcp\_options\_id) | `string` | The ID if DHCP Option |
-| <a name="vpc_enable_classiclink"></a> [vpc_enable_classiclink](#output\_vpc\_enable\_classiclink) | `boolean` | Whether or not the VPC has Classiclink enabled |
-| <a name="vpc_enable_classiclink_dns_support"></a> [vpc_enable_classiclink_dns_support](#output\_vpc\_enable\_classiclink\_dns\_support) | `boolean` | Whether or not the VPC has Classiclink DNS support |
-| <a name="vpc_enable_dns_support"></a> [vpc_enable_dns_support](#output\_vpc\_enable\_dns\_support) | `boolean` | Whether or not the VPC has DNS support |
-| <a name="vpc_enable_dns_hostnames"></a> [vpc_enable_dns_hostnames](#output\_vpc\_enable\_dns\_hostnames) | `boolean` | Whether or not the VPC has DNS hostname support |
+| <a name="vpc_enable_classiclink"></a> [vpc_enable_classiclink](#output\_vpc\_enable\_classiclink) | `bool` | Whether or not the VPC has Classiclink enabled |
+| <a name="vpc_enable_classiclink_dns_support"></a> [vpc_enable_classiclink_dns_support](#output\_vpc\_enable\_classiclink\_dns\_support) | `bool` | Whether or not the VPC has Classiclink DNS support |
+| <a name="vpc_enable_dns_support"></a> [vpc_enable_dns_support](#output\_vpc\_enable\_dns\_support) | `bool` | Whether or not the VPC has DNS support |
+| <a name="vpc_enable_dns_hostnames"></a> [vpc_enable_dns_hostnames](#output\_vpc\_enable\_dns\_hostnames) | `bool` | Whether or not the VPC has DNS hostname support |
 | <a name="vpc_ipv6_association_id"></a> [vpc_ipv6_association_id](#output\_vpc\_ipv6\_association\_id) | `string` | The association ID for the IPv6 CIDR block. |
 | <a name="vpc_igw"></a> [vpc_igw](#output\_vpc\_igw) | `map` | The details of the Internet Gateway:<br>`id` - The ID of IGW<br>`arn` - Amazon Resource Name (ARN) of IGW<br>`availability_zone` - The ID of the AWS account that owns the IGW. |
 | <a name="vpc_egress_igw_id"></a> [vpc_egress_igw_id](#output\_vpc\_egress\_igw\_id) | `string` | The ID of the egress-only Internet gateway. |
