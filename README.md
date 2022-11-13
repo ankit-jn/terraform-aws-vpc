@@ -1,9 +1,9 @@
-# ARJ-Stack: AWS VPC Terraform module
+## ARJ-Stack: AWS VPC Terraform module
 
 A Terraform module for building VPC in AWS.
 
 ---
-## Resources
+### Resources
 This module features the following components to be provisioned with different combinations:
 
 - VPC [[aws_vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)]
@@ -28,24 +28,24 @@ This module features the following components to be provisioned with different c
     - Default Network ACL [[aws_default_network_acl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_network_acl)]
     - Default Route Table [[aws_default_route_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table)]
 
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2.5 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.22.0 |
 
-## Providers
+### Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.22.0 |
 
-## Examples
+### Examples
 
 Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-examples/tree/main/aws-vpc) to get an idea of effectively utilizing this module for VPC Provisioning
 
-## Inputs
+### Inputs
 
 #### VPC specific properties
 ---
@@ -116,7 +116,7 @@ Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-example
 | <a name="default_route_table_propagating_vgws"></a> [default_route_table_propagating_vgws](#input\_default\_route\_table\_propagating\_vgws) | List of virtual gateways for propagation. | `list(string)` | `[]` | no | |
 | <a name="default_route_table_routes"></a> [default_route_table_routes](#default\_route\_table\_routes) | A List of Configuration map for Routes | `list(map(string))` | `[]` | no | <pre>[<br>   {   <br>      "route_key"      = "rt-1"<br>      "cidr_block"     = "xxx.xxx.xxx.xxx/xx"<br>      "nat_gateway_id" = "nat-xxxx"<br>   },<br>   {   <br>      "route_key"            = "rt-2"<br>      "cidr_block"           = "yyy.yyy.yyy.yyy/yy"<br>      "network_interface_id" = "nic-xxxx"<br>   }<br>]<pre> |
 
-## Nested Configuration Maps:  
+### Nested Configuration Maps:  
 
 #### vpc_base_configs
 
@@ -278,7 +278,7 @@ Map Value - An array of Rule Maps as defined below<br><br>
 | <a name="protocol"></a> [protocol](#input\_protocol) | protocol name | `string` |  | yes |
 | <a name="cidr_blocks"></a> [cidr_blocks](#input\_cidr\_blocks) | Rule Number | `string` |  | no |
 
-## Outputs
+### Outputs
 
 | Name | Type | Description |
 |:------|:------|:------|
@@ -301,6 +301,6 @@ Map Value - An array of Rule Maps as defined below<br><br>
 | <a name="vpc_ipv6_cidr_block_network_border_group"></a> [vpc_ipv6_cidr_block_network_border_group](#output\_vpc\_ipv6\_cidr\_block\_network\_border\_group) | `string` | The Network Border Group Zone name |
 | <a name="vpc_tags_all"></a> [vpc_tags_all](#output\_vpc\_tags\_all) | `map` | All tags associated to VPC |
 
-## Authors
+### Authors
 
 Module is maintained by [Ankit Jain](https://github.com/ankit-jn) with help from [these professional](https://github.com/arjstack/terraform-aws-vpc/graphs/contributors).
