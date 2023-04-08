@@ -43,7 +43,7 @@ This module features the following components to be provisioned with different c
 
 ### Examples
 
-Refer [Configuration Examples](https://github.com/arjstack/terraform-aws-examples/tree/main/aws-vpc) to get an idea of effectively utilizing this module for VPC Provisioning
+Refer [Configuration Examples](https://github.com/ankit-jn/terraform-aws-examples/tree/main/aws-vpc) to get an idea of effectively utilizing this module for VPC Provisioning
 
 ### Inputs
 
@@ -303,4 +303,4 @@ Map Value - An array of Rule Maps as defined below<br><br>
 
 ### Authors
 
-Module is maintained by [Ankit Jain](https://github.com/ankit-jn) with help from [these professional](https://github.com/arjstack/terraform-aws-vpc/graphs/contributors).
+Module is maintained by [Ankit Jain](https://github.com/ankit-jn) with help from [these professional](https://github.com/ankit-jn/terraform-aws-vpc/graphs/contributors).
